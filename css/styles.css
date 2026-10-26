@@ -2681,8 +2681,27 @@ body {
     padding: var(--header) calc(var(--frame) * 0.5) calc(var(--frame) * 0.5);
   }
 
+  /* Perf: no scale zoom on mobile — removes a composited layer repaint */
+  .hero-photo {
+    transform: none;
+  }
+
+  /* Perf: disable breathe animation on mobile */
+  .motion .hero-photo .hero-base {
+    animation: none;
+  }
+
+  /* Perf: slow grain to 2s and lower opacity on mobile */
+  .motion .grain {
+    animation-duration: 2s;
+    opacity: 0.09;
+  }
+
+  /* Hint browser to composite hero-frame as its own layer */
   .hero-frame {
     inset: var(--header) calc(var(--frame) * 0.5) calc(var(--frame) * 0.5);
+    will-change: transform;
+    contain: layout paint;
   }
 
   .hero-inner {

@@ -620,12 +620,13 @@
     x.globalCompositeOperation = "source-over";
   };
 
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 768;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const size = (c) => {
+  const size = (c, forceDpr) => {
     const w = c.clientWidth,
       h = c.clientHeight;
     if (!w || !h) return null;
-    const d = Math.min(1.5, devicePixelRatio || 1);
+    const d = forceDpr != null ? forceDpr : Math.min(1.5, devicePixelRatio || 1);
     c.width = Math.round(w * d);
     c.height = Math.round(h * d);
     const x = c.getContext("2d");
@@ -662,7 +663,11 @@
       parts = [],
       t = 0,
       on = false,
-      raf = 0;
+      raf = 0,
+      lastTick = 0;
+    // Mobile: far fewer particles, ~30fps throttle
+    const maxParts = isMobile ? 400 : 2600;
+    const fpsInterval = isMobile ? 1000 / 30 : 0;
     const spawn = (w, h) => ({
       x: Math.random() * w,
       y: h * (0.15 + Math.random() * 0.95),
@@ -698,18 +703,25 @@
       t += 0.0012;
     };
     const setup = () => {
-      S = size(c);
+      S = size(c, isMobile ? 1 : undefined);
       if (!S) return;
       S.x.clearRect(0, 0, S.w, S.h);
-      const N = Math.min(2600, ((S.w * S.h) / 560) | 0);
+      const N = Math.min(maxParts, ((S.w * S.h) / 560) | 0);
       parts = Array.from({ length: N }, () => spawn(S.w, S.h));
-      for (let i = 0; i < 70; i++) step();
+      // Skip pre-warm on mobile to avoid blocking main thread
+      if (!isMobile) for (let i = 0; i < 70; i++) step();
     };
-    const loop = () => {
+    const loop = (now) => {
       if (!on) return;
-      if (S) step();
+      if (S) {
+        if (fpsInterval === 0 || now - lastTick >= fpsInterval) {
+          step();
+          lastTick = now;
+        }
+      }
       raf = requestAnimationFrame(loop);
     };
+
     new IntersectionObserver((es) => {
       const v = es[0].isIntersecting && !document.hidden;
       if (v && !on) {
