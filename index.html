@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lumoqra | Modern Software &amp; Digital Product Engineering</title>
+    <meta name="description"
+        content="Lumoqra is a modern AI and technology consultancy specializing in custom web development, generative AI systems, AI video content, and AI audiobooks." />
+    <script>
+        (function () {
+            var d = document.documentElement;
+            // Always enable animations: let CSS handle the visual experience
+            d.classList.add("motion");
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" />
+    <link rel="preload" as="style" href="css/styles.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+    <!-- Site Navigation -->
+    <header class="site-header" data-section="nav">
+        <a class="logo" href="#hero" data-flight-to>Lumoqra</a>
+        <nav class="nav" id="site-nav" aria-label="Main Navigation">
+            <a class="link" href="#hero">Home</a>
+            <a class="link" href="#projects">Projects</a>
+            <a class="link" href="#about">About Us</a>
+            <a class="link" href="#reviews">Client Stories</a>
+            <a class="link" href="#contact">Contact Us</a>
+        </nav>
+        <div class="header-end">
+            <span class="mono header-date">Engineering &amp; Technology</span>
+            <a class="btn btn--sm" href="#contact">Get in Touch</a>
+            <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">
+                <span class="menu-lines" aria-hidden="true"></span>
+                <span class="sr">Menu</span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. HOMEPAGE / HERO SECTION -->
+        <section id="hero" class="hero" data-section="hero" data-loops>
+            <div class="hero-frame">
+                <div class="hero-photo">
+                    <canvas class="art hero-base" data-art="silk" data-pal="night" data-seed="7" data-gain=".55"
+                        data-scale=".5" role="img"
+                        aria-label="Dynamic computational canvas representing digital craft"></canvas>
+                    <canvas class="art" data-art="none" data-seed="7" data-live aria-hidden="true"></canvas>
+                </div>
+                <div class="hero-shade" aria-hidden="true"></div>
+                <div class="grain" aria-hidden="true"></div>
+            </div>
+            <div class="hero-inner">
+                <div class="hero-top">
+                    <p class="wordmark" data-flight-from style="--len: 7">
+                        Lumoqra
+                    </p>
+                    <div class="hero-sub-row">
+                        <p class="hero-studio">
+                            Software &amp; Digital <span class="it">Systems</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="hero-marks" aria-hidden="true">
+                    <i></i><i></i><i></i><i></i>
+                </div>
+                <div class="hero-bottom">
+                    <div class="hero-lede-col">
+                        <h1 class="hero-lede">
+                            We engineer mission critical software, intelligent systems,
+                            <span>and digital experiences that propel visionary companies
+                                forward.</span>
+                        </h1>
+                        <div class="hero-stats">
+                            <div class="hero-stat-item">
+                                <span class="stat-num mono">99.98%</span>
+                                <span class="stat-lbl">Uptime SLA Architecture</span>
+                            </div>
+                            <div class="hero-stat-item">
+                                <span class="stat-num mono">50M+</span>
+                                <span class="stat-lbl">Daily API Transactions</span>
+                            </div>
+                            <div class="hero-stat-item">
+                                <span class="stat-num mono">14+</span>
+                                <span class="stat-lbl">Production AI Pipelines</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-action-col">
+                        <p class="hero-col-title mono">CORE SPECIALIZATIONS</p>
+                        <ul class="hero-list">
+                            <li><span>01</span>Custom Web Development</li>
+                            <li><span>02</span>Generative &amp; Predictive AI Solutions</li>
+                            <li><span>03</span>AI Video Content Creation</li>
+                            <li><span>04</span>AI Audiobook Production &amp; Voice</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. PROJECTS SECTION -->
+        <section id="projects" class="work" data-section="exhibits">
+            <div class="sec-head wrap">
+                <div>
+                    <span class="mono sec-tag">Selected Engagements &amp; Case Studies</span>
+                    <h2 class="title dot">Projects</h2>
+                </div>
+                <p class="sec-lede">
+                    From high throughput fintech platforms to generative AI workflows,
+                    explore how we help market leaders build resilient software
+                    products.
+                </p>
+            </div>
+            <div class="work-grid wrap">
+                <a class="project" href="#contact">
+                    <div class="project-media" data-mask>
+                        <span class="project-chip mono">Healthcare · Telemedicine</span>
+                        <canvas class="art" data-art="petal" data-pal="bone" data-seed="12" role="img"
+                            aria-label="Patient telemetry network interface"></canvas>
+                    </div>
+                    <div class="project-meta">
+                        <h3 class="project-name">PulseCare Real-Time Diagnostics</h3>
+                        <p class="project-kind">HIPAA-Compliant Web Platform</p>
+                        <p class="project-year">2026</p>
+                    </div>
+                </a>
+                <a class="project" href="#contact">
+                    <div class="project-media" data-mask>
+                        <span class="project-chip mono">AI &amp; Automation</span>
+                        <canvas class="art" data-art="contour" data-pal="ember" data-seed="5" role="img"
+                            aria-label="Neural document intelligence interface"></canvas>
+                    </div>
+                    <div class="project-meta">
+                        <h3 class="project-name">Nexus AI Document Intelligence</h3>
+                        <p class="project-kind">LLM Integration &amp; Workflow Engine</p>
+                        <p class="project-year">2025</p>
+                    </div>
+                </a>
+                <a class="project" href="#contact">
+                    <div class="project-media" data-mask>
+                        <span class="project-chip mono">Logistics &amp; Supply</span>
+                        <canvas class="art" data-art="chrome" data-pal="ash" data-seed="9" role="img"
+                            aria-label="Fleet management optimization engine"></canvas>
+                    </div>
+                    <div class="project-meta">
+                        <h3 class="project-name">Aura Route &amp; Cargo Optimization</h3>
+                        <p class="project-kind">Real-Time Geospatial Platform</p>
+                        <p class="project-year">2025</p>
+                    </div>
+                </a>
+                <a class="project" href="#contact">
+                    <div class="project-media" data-mask>
+                        <span class="project-chip mono">E-Commerce &amp; Retail</span>
+                        <canvas class="art" data-art="orb" data-pal="violet" data-seed="17" role="img"
+                            aria-label="Interactive 3D digital storefront"></canvas>
+                    </div>
+                    <div class="project-meta">
+                        <h3 class="project-name">Luxe Commerce Headless Experience</h3>
+                        <p class="project-kind">Next-Gen Frontend &amp; Micro-frontend</p>
+                        <p class="project-year">2025</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- 3. ABOUT US & CAPABILITIES SECTION -->
+        <section id="about" class="about" data-section="about">
+            <div class="about-grid wrap">
+                <figure class="about-photo" data-speed=".08">
+                    <canvas class="art" data-art="bust" data-pal="night" data-seed="44" role="img"
+                        aria-label="Lumoqra engineering philosophy portrait"></canvas>
+                </figure>
+                <div class="about-copy">
+                    <h2 class="about-text" data-ink>
+                        We don’t just write code. We partner as your dedicated
+                        <span class="it">technology architects</span>, crafting robust
+                        solutions, accelerating time to market, and delivering software
+                        that scales effortlessly.
+                    </h2>
+                    <div class="about-foot">
+                        <a class="btn" href="#services">Our Service Capabilities</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES / CORE CAPABILITIES ACCORDION -->
+        <section id="services" class="services" data-section="programme">
+            <div class="svc-track">
+                <div class="svc-stage" data-flood>
+                    <div class="svc-layer svc-light">
+                        <h2 class="title dot">Services</h2>
+                        <p class="svc-lede">
+                            Comprehensive technology solutions: custom web development,
+                            generative AI systems, AI video content creation, and studio grade
+                            AI audiobook production.
+                        </p>
+                    </div>
+                    <div class="svc-layer svc-dark" aria-hidden="true"></div>
+                </div>
+            </div>
+            <div class="svc-body">
+                <div class="svc-list" data-accordion>
+                    <div class="svc-item is-open" data-acc-item>
+                        <button class="svc-btn" type="button" aria-expanded="true" data-acc-btn>
+                            <span class="svc-name">
+                                <span class="mono">01</span>Custom Web Development
+                            </span>
+                            <span class="icon-btn" aria-hidden="true">
+                                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path class="v" d="M7 0v14" />
+                                    <path d="M0 7h14" />
+                                </svg>
+                            </span>
+                        </button>
+                        <div data-acc-panel>
+                            <div class="acc-in">
+                                <div class="svc-grid">
+                                    <div class="svc-img">
+                                        <canvas class="art" data-art="silk" data-pal="lime" data-seed="31"
+                                            aria-hidden="true"></canvas>
+                                    </div>
+                                    <p class="svc-text">
+                                        Modern, high performance web applications, interactive
+                                        digital platforms, and robust APIs engineered for scale,
+                                        speed, and seamless user experiences.
+                                    </p>
+                                    <ul class="tags">
+                                        <li>React &amp; Next.js</li>
+                                        <li>Node &amp; Python</li>
+                                        <li>Progressive Web Apps</li>
+                                        <li>High Speed Architecture</li>
+                                        <li>GraphQL / REST APIs</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="svc-item" data-acc-item>
+                        <button class="svc-btn" type="button" aria-expanded="false" data-acc-btn>
+                            <span class="svc-name">
+                                <span class="mono">02</span>AI &amp; Machine Learning Solutions
+                            </span>
+                            <span class="icon-btn" aria-hidden="true">
+                                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path class="v" d="M7 0v14" />
+                                    <path d="M0 7h14" />
+                                </svg>
+                            </span>
+                        </button>
+                        <div data-acc-panel>
+                            <div class="acc-in">
+                                <div class="svc-grid">
+                                    <div class="svc-img">
+                                        <canvas class="art" data-art="flow" data-pal="violet" data-seed="32"
+                                            aria-hidden="true"></canvas>
+                                    </div>
+                                    <p class="svc-text">
+                                        Tailored AI models, RAG pipelines, predictive analytics,
+                                        and automated decision-making workflows that unlock
+                                        massive business value.
+                                    </p>
+                                    <ul class="tags">
+                                        <li>Custom LLMs &amp; RAG</li>
+                                        <li>Computer Vision</li>
+                                        <li>Automated Workflows</li>
+                                        <li>Data Pipeline Architecture</li>
+                                        <li>Predictive Modeling</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="svc-item" data-acc-item>
+                        <button class="svc-btn" type="button" aria-expanded="false" data-acc-btn>
+                            <span class="svc-name">
+                                <span class="mono">03</span>AI Video Content Creation
+                            </span>
+                            <span class="icon-btn" aria-hidden="true">
+                                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path class="v" d="M7 0v14" />
+                                    <path d="M0 7h14" />
+                                </svg>
+                            </span>
+                        </button>
+                        <div data-acc-panel>
+                            <div class="acc-in">
+                                <div class="svc-grid">
+                                    <div class="svc-img">
+                                        <canvas class="art" data-art="contour" data-pal="ember" data-seed="33"
+                                            aria-hidden="true"></canvas>
+                                    </div>
+                                    <p class="svc-text">
+                                        Cinematic AI generated video production, dynamic commercial
+                                        visuals, personalized marketing videos, and synthetic media
+                                        workflows tailored for modern brands.
+                                    </p>
+                                    <ul class="tags">
+                                        <li>Generative AI Video</li>
+                                        <li>Text to Video Pipelines</li>
+                                        <li>Motion &amp; Visual FX</li>
+                                        <li>Brand Storytelling</li>
+                                        <li>Automated Video Workflows</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="svc-item" data-acc-item>
+                        <button class="svc-btn" type="button" aria-expanded="false" data-acc-btn>
+                            <span class="svc-name">
+                                <span class="mono">04</span>AI Audiobook Production &amp; Voice
+                            </span>
+                            <span class="icon-btn" aria-hidden="true">
+                                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path class="v" d="M7 0v14" />
+                                    <path d="M0 7h14" />
+                                </svg>
+                            </span>
+                        </button>
+                        <div data-acc-panel>
+                            <div class="acc-in">
+                                <div class="svc-grid">
+                                    <div class="svc-img">
+                                        <canvas class="art" data-art="orb" data-pal="night" data-seed="34"
+                                            aria-hidden="true"></canvas>
+                                    </div>
+                                    <p class="svc-text">
+                                        Studio quality neural narration, expressive multi character voice
+                                        synthesis, automated mastering, and complete AI audiobook publishing
+                                        pipelines.
+                                    </p>
+                                    <ul class="tags">
+                                        <li>Neural Voice Cloning</li>
+                                        <li>Multi-Voice Narration</li>
+                                        <li>Dynamic Audio Mastering</li>
+                                        <li>ACX &amp; Audible Compliance</li>
+                                        <li>Speech Synthesis (TTS)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROCESS / HOW WE COLLABORATE -->
+        <section id="process" class="process" data-section="process">
+            <div class="split-track">
+                <div class="split" data-split>
+                    <h2 class="split-title title dot">
+                        Agile delivery from discovery to production
+                    </h2>
+                    <figure class="split-photo">
+                        <canvas class="art" data-art="chrome" data-pal="ember" data-seed="81" role="img"
+                            aria-label="Precision software engineering process"></canvas>
+                    </figure>
+                </div>
+            </div>
+            <div class="steps wrap">
+                <div class="steps-track">
+                    <div class="steps-line" aria-hidden="true"></div>
+                    <ol class="step-list">
+                        <li class="step is-on">
+                            <span class="step-node" aria-hidden="true"></span>
+                            <span class="mono step-idx">01</span>
+                            <h3 class="step-title">Discovery &amp; Roadmapping</h3>
+                            <p class="step-text">
+                                We align on core objectives, technical constraints, KPIs, and
+                                deliverables to define an actionable blueprint.
+                            </p>
+                        </li>
+                        <li class="step">
+                            <span class="step-node" aria-hidden="true"></span>
+                            <span class="mono step-idx">02</span>
+                            <h3 class="step-title">Architecture &amp; Prototyping</h3>
+                            <p class="step-text">
+                                We build scalable system architectures, interactive digital
+                                prototypes, and establish benchmark performance tests.
+                            </p>
+                        </li>
+                        <li class="step">
+                            <span class="step-node" aria-hidden="true"></span>
+                            <span class="mono step-idx">03</span>
+                            <h3 class="step-title">Agile Build Sprints</h3>
+                            <p class="step-text">
+                                Bi-weekly milestone demos with complete code review, automated
+                                test coverage, and transparent project tracking.
+                            </p>
+                        </li>
+                        <li class="step">
+                            <span class="step-node" aria-hidden="true"></span>
+                            <span class="mono step-idx">04</span>
+                            <h3 class="step-title">Deployment &amp; Hypercare</h3>
+                            <p class="step-text">
+                                Production rollout with automated monitoring, uptime SLAs,
+                                documentation transfer, and post-launch optimization.
+                            </p>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. CLIENT STORIES / REVIEWS -->
+        <section id="reviews" class="reviews" data-section="testimonials">
+            <div class="rev-head wrap">
+                <h2 class="title dot">Client <span class="it">Stories</span></h2>
+                <div class="rev-score">
+                    <p class="score">
+                        <span class="score-num">4.9</span><span class="score-of">/5</span>
+                    </p>
+                    <p class="score-text">
+                        Average client satisfaction score across 60+ delivered enterprise
+                        engagements.
+                    </p>
+                    <a class="link link--under" href="#contact">Read verified case studies</a>
+                </div>
+            </div>
+            <div class="marquee" data-marquee>
+                <ul class="marquee-track">
+                    <li class="review">
+                        <p class="review-text">
+                            “Lumoqra delivered our multi-tenant SaaS architecture three
+                            weeks ahead of schedule. Their code quality and architectural
+                            decisions are world-class.”
+                        </p>
+                        <div class="review-by">
+                            <div class="review-face">
+                                <canvas class="art" data-art="bust" data-pal="ember" data-seed="51"
+                                    aria-hidden="true"></canvas>
+                            </div>
+                            <p class="review-name">
+                                Marcus Vance <span>CTO, FinEdge Payments</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="review">
+                        <p class="review-text">
+                            “The AI pipeline Lumoqra integrated into our clinical workflow
+                            reduced turnaround times by 74%. They are true partners, not
+                            just contractors.”
+                        </p>
+                        <div class="review-by">
+                            <div class="review-face">
+                                <canvas class="art" data-art="bust" data-pal="violet" data-seed="52"
+                                    aria-hidden="true"></canvas>
+                            </div>
+                            <p class="review-name">
+                                Dr. Sarah Chen <span>VP of Tech, HealthVector</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="review">
+                        <p class="review-text">
+                            “From concept sprints to final rollout, Lumoqra transformed our
+                            workflows into a modern, lightning-fast digital platform.”
+                        </p>
+                        <div class="review-by">
+                            <div class="review-face">
+                                <canvas class="art" data-art="bust" data-pal="bone" data-seed="53"
+                                    aria-hidden="true"></canvas>
+                            </div>
+                            <p class="review-name">
+                                David Kroll <span>Head of Product, Apex Logistics</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="review">
+                        <p class="review-text">
+                            “Exceptional team. They took complete ownership of our AI media
+                            and web platform rewrite, delivering unmatched fidelity and speed.”
+                        </p>
+                        <div class="review-by">
+                            <div class="review-face">
+                                <canvas class="art" data-art="bust" data-pal="night" data-seed="54"
+                                    aria-hidden="true"></canvas>
+                            </div>
+                            <p class="review-name">
+                                Priya Nair <span>Co-Founder, Synapse Retail</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="review">
+                        <p class="review-text">
+                            "Lumoqra's AI audiobook production cut our content pipeline from
+                            months to days. The voice quality and narrative pacing exceeded
+                            every expectation."
+                        </p>
+                        <div class="review-by">
+                            <div class="review-face">
+                                <canvas class="art" data-art="bust" data-pal="lime" data-seed="61"
+                                    aria-hidden="true"></canvas>
+                            </div>
+                            <p class="review-name">
+                                James Okafor <span>Publishing Director, Narrative House</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="review">
+                        <p class="review-text">
+                            "The short-form video content Lumoqra produced drove a 3× lift in
+                            engagement within the first two weeks. Truly creative and
+                            technically sharp."
+                        </p>
+                        <div class="review-by">
+                            <div class="review-face">
+                                <canvas class="art" data-art="bust" data-pal="ash" data-seed="62"
+                                    aria-hidden="true"></canvas>
+                            </div>
+                            <p class="review-name">
+                                Leila Mossa <span>CMO, Drift Commerce</span>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+
+
+        <!-- 5. CONTACT US SECTION -->
+        <section id="contact" class="contact" data-section="cta" data-loops>
+            <div class="contact-panel">
+                <div class="contact-bg">
+                    <canvas class="art" data-art="silk" data-pal="night" data-seed="111" data-gain=".6" data-scale=".6"
+                        aria-hidden="true"></canvas>
+                    <div class="hero-shade" aria-hidden="true"></div>
+                    <div class="grain" aria-hidden="true"></div>
+                </div>
+                <div class="contact-in">
+                    <div class="contact-copy">
+                        <h2 class="title dot" data-rise>Let’s build together</h2>
+                        <p class="contact-lede">
+                            Have a new product idea, architecture challenge, or system
+                            modernization project? Reach out to discuss timelines, scope,
+                            and technical strategy.
+                        </p>
+                        <ul class="contact-notes">
+                            <li>
+                                <strong>Direct Response</strong>
+                                A senior engineering partner will review your inquiry and
+                                reply within 24 hours.
+                            </li>
+                            <li>
+                                <strong>NDA First</strong>
+                                We gladly provide non-disclosure agreements before reviewing
+                                proprietary project specs.
+                            </li>
+                        </ul>
+                        <a class="btn btn--sm contact-email-btn" href="mailto:lumoqra@gmail.com">
+                            ✉ lumoqra@gmail.com
+                        </a>
+
+                    </div>
+                    <form class="form" action="#" method="post"
+                        data-sent="Thank you! We received your message and a senior partner will respond within one business day.">
+                        <p class="form-title">Get in Touch</p>
+                        <label class="field">
+                            <span>Your name</span>
+                            <input type="text" name="name" autocomplete="name" placeholder="Sarah Connor" required />
+                        </label>
+                        <label class="field">
+                            <span>Work email</span>
+                            <input type="email" name="email" autocomplete="email" placeholder="sarah@company.com"
+                                required />
+                        </label>
+                        <label class="field">
+                            <span>Project scope</span>
+                            <select name="service">
+                                <option>Custom Web Application</option>
+                                <option>AI Video Content Creation</option>
+                                <option>AI Audiobook Production</option>
+                                <option>AI &amp; Intelligent Automation</option>
+                                <option>UI/UX Product Design</option>
+                            </select>
+                        </label>
+                        <label class="field">
+                            <span>Project details</span>
+                            <textarea name="message" rows="3"
+                                placeholder="Tell us about your goals, timeline, and current technical stack"
+                                required></textarea>
+                        </label>
+                        <button class="btn" type="submit">Submit Inquiry</button>
+                        <p class="form-status" role="status" aria-live="polite"></p>
+                        <p class="form-small">
+                            Your data is strictly confidential. We never share your
+                            information.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 6. FOOTER -->
+    <footer class="site-footer" data-section="footer">
+        <div class="foot-top wrap">
+            <div class="foot-col">
+                <p class="foot-h mono">Inquiries</p>
+                <a class="foot-big link" href="mailto:lumoqra@gmail.com">lumoqra@gmail.com</a>
+            </div>
+            <div class="foot-col">
+                <p class="foot-h mono">Headquarters</p>
+                <p>Lumoqra Technologies Inc.</p>
+                <p>Technology &amp; Design Practice</p>
+            </div>
+            <nav class="foot-col" aria-label="Footer Navigation">
+                <p class="foot-h mono">Quick Links</p>
+                <a class="link" href="#hero">Homepage</a>
+                <a class="link" href="#projects">Projects</a>
+                <a class="link" href="#about">About Us</a>
+                <a class="link" href="#reviews">Client Stories</a>
+                <a class="link" href="#contact">Contact Us</a>
+            </nav>
+        </div>
+        <div class="foot-mark-wrap">
+            <p class="foot-mark" style="--len: 7">
+                Lumoqra
+            </p>
+        </div>
+        <div class="foot-bottom wrap">
+            <p>© 2026 Lumoqra Technologies Inc. All rights reserved.</p>
+            <p class="mono">
+                Engineered with precision &amp; generative aesthetics
+            </p>
+            <a class="link" href="#">Privacy Policy &amp; Terms</a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script defer src="vendor/gsap.min.js"></script>
+    <script defer src="vendor/ScrollTrigger.min.js"></script>
+    <script defer src="vendor/lenis.min.js"></script>
+    <script defer src="js/visual-engine.js"></script>
+    <script defer src="js/main.js"></script>
+</body>
+
+</html>

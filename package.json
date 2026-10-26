@@ -1,0 +1,23 @@
+{
+  "name": "website",
+  "version": "1.0.0",
+  "description": "Company website built to showcase our services, projects, and software solutions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lumoqra/website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lumoqra/website/issues"
+  },
+  "homepage": "https://github.com/Lumoqra/website#readme",
+  "devDependencies": {
+    "prettier": "^3.9.10"
+  }
+}
