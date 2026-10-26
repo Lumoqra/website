@@ -505,12 +505,14 @@ main > section {
   border-radius: var(--r-xl);
   overflow: hidden;
   background: var(--panel);
+  will-change: clip-path, transform;
 }
 
 .hero-photo {
   position: absolute;
   inset: 0;
   transform: scale(1.12);
+  will-change: transform;
 }
 
 .hero-shade {
@@ -2695,10 +2697,10 @@ body {
     animation: none;
   }
 
-  /* Perf: slow grain to 2s and lower opacity on mobile */
+  /* Perf: disable heavy SVG noise animation on mobile to preserve 60fps */
   .motion .grain {
-    animation-duration: 2s;
-    opacity: 0.09;
+    animation: none;
+    opacity: 0.06;
   }
 
   /* Hint browser to composite hero-frame as its own layer */

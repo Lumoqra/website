@@ -665,8 +665,8 @@
       on = false,
       raf = 0,
       lastTick = 0;
-    // Mobile: far fewer particles, ~30fps throttle
-    const maxParts = isMobile ? 400 : 2600;
+    // Optimize particle count for high 60fps throughput on retina/4K displays
+    const maxParts = isMobile ? 350 : 1100;
     const fpsInterval = isMobile ? 1000 / 30 : 0;
     const spawn = (w, h) => ({
       x: Math.random() * w,
@@ -674,31 +674,51 @@
       l: 80 + Math.random() * 240,
       a: Math.random() < 0.04,
     });
+    const pA = new Path2D(),
+      pB = new Path2D();
     const step = () => {
       const { x, w, h } = S;
       x.globalCompositeOperation = "destination-out";
       x.fillStyle = "rgba(0,0,0,.05)";
       x.fillRect(0, 0, w, h);
       x.globalCompositeOperation = "lighter";
-      const sc = 0.0016,
-        A = new Path2D(),
-        B = new Path2D();
-      for (const q of parts) {
-        const a = fbm(n, q.x * sc + t, q.y * sc - t * 0.7, 2) * TAU * 1.6;
+      const sc = 0.0016;
+      x.beginPath();
+      // Draw trails efficiently
+      x.lineWidth = 0.8;
+      x.strokeStyle = "rgba(255,236,214,.13)";
+      for (let i = 0; i < parts.length; i++) {
+        const q = parts[i];
+        if (q.a) continue;
+        const a = n(q.x * sc + t, q.y * sc - t * 0.7) * TAU * 1.6;
         const nx = q.x + Math.cos(a) * 1.5,
           ny = q.y + Math.sin(a) * 1.5 - 0.5;
-        (q.a ? B : A).moveTo(q.x, q.y);
-        (q.a ? B : A).lineTo(nx, ny);
+        x.moveTo(q.x, q.y);
+        x.lineTo(nx, ny);
         q.x = nx;
         q.y = ny;
         if (--q.l < 0 || nx < -5 || nx > w + 5 || ny < -5)
           Object.assign(q, spawn(w, h), { y: h + 2 });
       }
-      x.lineWidth = 0.8;
-      x.strokeStyle = "rgba(255,236,214,.13)";
-      x.stroke(A);
+      x.stroke();
+
+      x.beginPath();
       x.strokeStyle = `rgba(${acc},.5)`;
-      x.stroke(B);
+      for (let i = 0; i < parts.length; i++) {
+        const q = parts[i];
+        if (!q.a) continue;
+        const a = n(q.x * sc + t, q.y * sc - t * 0.7) * TAU * 1.6;
+        const nx = q.x + Math.cos(a) * 1.5,
+          ny = q.y + Math.sin(a) * 1.5 - 0.5;
+        x.moveTo(q.x, q.y);
+        x.lineTo(nx, ny);
+        q.x = nx;
+        q.y = ny;
+        if (--q.l < 0 || nx < -5 || nx > w + 5 || ny < -5)
+          Object.assign(q, spawn(w, h), { y: h + 2 });
+      }
+      x.stroke();
+
       x.globalCompositeOperation = "source-over";
       t += 0.0012;
     };
@@ -706,10 +726,10 @@
       S = size(c, isMobile ? 1 : undefined);
       if (!S) return;
       S.x.clearRect(0, 0, S.w, S.h);
-      const N = Math.min(maxParts, ((S.w * S.h) / 560) | 0);
+      const N = Math.min(maxParts, ((S.w * S.h) / 850) | 0);
       parts = Array.from({ length: N }, () => spawn(S.w, S.h));
-      // Skip pre-warm on mobile to avoid blocking main thread
-      if (!isMobile) for (let i = 0; i < 70; i++) step();
+      // Lightweight pre-warm on desktop: 15 ticks instead of 70 to eliminate main thread hitch
+      if (!isMobile) for (let i = 0; i < 15; i++) step();
     };
     const loop = (now) => {
       if (!on) return;

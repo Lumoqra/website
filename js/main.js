@@ -151,10 +151,15 @@
   });
   let lenis = null;
   if (window.Lenis) {
-    lenis = new Lenis({ lerp: 0.11 });
+    const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    lenis = new Lenis({
+      lerp: 0.1,
+      smoothWheel: true,
+      syncTouch: false,
+    });
     lenis.on("scroll", ScrollTrigger.update);
     gsap.ticker.add((t) => lenis.raf(t * 1000));
-    gsap.ticker.lagSmoothing(0);
+    gsap.ticker.lagSmoothing(500, 33);
   }
   document.querySelectorAll('a[href^="#"]').forEach((a) =>
     a.addEventListener("click", (e) => {
@@ -258,56 +263,73 @@
     const livePill = hero.querySelector(".live");
     const wm = hero.querySelector("[data-flight-from]");
     const logo = document.querySelector("[data-flight-to]");
-    const dist = () => Math.round(Math.min(window.innerHeight * 0.72, 600));
+    const isMobile = window.innerWidth <= 760;
+    const dist = () => Math.round(Math.min(window.innerHeight * 0.6, 500));
+
     const tl = gsap.timeline({
       defaults: { ease: "none" },
       scrollTrigger: {
         trigger: hero,
         start: "top top",
         end: () => "+=" + dist(),
-        scrub: true,
+        scrub: isMobile ? 0.3 : true,
         invalidateOnRefresh: true,
       },
     });
-    if (frame)
-      tl.fromTo(
-        frame,
-        { clipPath: () => `inset(0% 0% 0% 0% round ${px("--r-xl")}px)` },
-        {
-          clipPath: () =>
-            `inset(5% 3.5% 0% 3.5% round ${px("--r-xl") * 1.8}px)`,
-          duration: 1,
-        },
-        0,
-      );
-    if (photo) tl.fromTo(photo, { scale: 1.12 }, { scale: 1, duration: 1 }, 0);
-    if (bottom)
-      tl.to(bottom, { y: () => -window.innerHeight * 0.1, duration: 1 }, 0);
-    if (studio) tl.to(studio, { opacity: 0, y: -30, duration: 0.4 }, 0);
-    if (livePill) tl.to(livePill, { opacity: 0, y: -20, duration: 0.3 }, 0);
-    if (wm && logo) {
-      const geo = () => {
-        const r = logo.getBoundingClientRect();
-        const p = docPos(wm);
-        const start = docPos(hero).y;
-        const s =
-          parseFloat(getComputedStyle(logo).fontSize) /
-          parseFloat(getComputedStyle(wm).fontSize);
-        return { x: r.left - p.x, y: r.top + start + dist() - p.y, s };
-      };
-      tl.to(
-        wm,
-        {
-          x: () => geo().x,
-          y: () => geo().y,
-          scale: () => geo().s,
-          duration: 1,
-        },
-        0,
-      )
-        .to(wm, { color: () => cssVar("--ink"), duration: 0.3 }, 0.62)
-        .to(logo, { opacity: 1, duration: 0.02 }, 0.98)
-        .to(wm, { opacity: 0, duration: 0.02 }, 0.98);
+
+    if (isMobile) {
+      // High-performance mobile scroll: transforms & opacities only (0 repaints)
+      if (bottom) tl.to(bottom, { y: -30, opacity: 0.15, duration: 1 }, 0);
+      if (studio) tl.to(studio, { opacity: 0, y: -20, duration: 0.4 }, 0);
+      if (wm) tl.to(wm, { opacity: 0, y: -25, duration: 0.6 }, 0);
+      if (logo) tl.to(logo, { opacity: 1, duration: 0.2 }, 0.7);
+    } else {
+      // Desktop rich experience
+      if (frame)
+        tl.fromTo(
+          frame,
+          { clipPath: () => `inset(0% 0% 0% 0% round ${px("--r-xl")}px)` },
+          {
+            clipPath: () =>
+              `inset(5% 3.5% 0% 3.5% round ${px("--r-xl") * 1.8}px)`,
+            duration: 1,
+          },
+          0,
+        );
+      if (photo) tl.fromTo(photo, { scale: 1.12 }, { scale: 1, duration: 1 }, 0);
+      if (bottom)
+        tl.to(bottom, { y: () => -window.innerHeight * 0.1, duration: 1 }, 0);
+      if (studio) tl.to(studio, { opacity: 0, y: -30, duration: 0.4 }, 0);
+      if (livePill) tl.to(livePill, { opacity: 0, y: -20, duration: 0.3 }, 0);
+      if (wm && logo) {
+        let cachedGeo = null;
+        const getGeo = () => {
+          if (!cachedGeo) {
+            const r = logo.getBoundingClientRect();
+            const p = docPos(wm);
+            const start = docPos(hero).y;
+            const s =
+              parseFloat(getComputedStyle(logo).fontSize) /
+              parseFloat(getComputedStyle(wm).fontSize);
+            cachedGeo = { x: r.left - p.x, y: r.top + start + dist() - p.y, s };
+          }
+          return cachedGeo;
+        };
+        ScrollTrigger.addEventListener("refreshInit", () => { cachedGeo = null; });
+        tl.to(
+          wm,
+          {
+            x: () => getGeo().x,
+            y: () => getGeo().y,
+            scale: () => getGeo().s,
+            duration: 1,
+          },
+          0,
+        )
+          .to(wm, { color: () => cssVar("--ink"), duration: 0.3 }, 0.62)
+          .to(logo, { opacity: 1, duration: 0.02 }, 0.98)
+          .to(wm, { opacity: 0, duration: 0.02 }, 0.98);
+      }
     }
   });
   add(".work-grid", (grid) => {
