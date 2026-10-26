@@ -528,14 +528,15 @@ main > section {
 
 .grain {
   position: absolute;
-  inset: -50%;
+  inset: 0;
   pointer-events: none;
-  opacity: 0.15;
+  opacity: 0.08;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* Static noise is GPU-cached; animated turbulence causes GPU fill-rate drop on scroll */
 .motion .grain {
-  animation: grain 1.2s steps(1) infinite;
+  animation: none;
 }
 
 .is-off .grain {
@@ -2623,7 +2624,8 @@ canvas.art:not([data-live]):not(.is-painted) {
 }
 
 .motion .hero-photo .hero-base {
-  animation: breathe 18s ease-in-out infinite alternate;
+  /* Keep base canvas static in GPU memory — scale animation forces continuous layer invalidation */
+  animation: none;
 }
 
 .is-off .hero-base {
@@ -2711,11 +2713,15 @@ body {
   }
 
   .hero-inner {
-    padding: clamp(18px, 4vw, 24px) clamp(16px, 4vw, 20px) clamp(22px, 5vw, 30px);
+    padding: clamp(34px, 7vw, 48px) clamp(16px, 4vw, 20px) clamp(22px, 5vw, 30px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: clamp(16px, 3vh, 28px);
+  }
+
+  .hero-top {
+    margin-top: 4px;
   }
 
   /* Wordmark: big, bold and fills the hero */

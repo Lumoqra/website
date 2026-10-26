@@ -626,10 +626,10 @@
     const w = c.clientWidth,
       h = c.clientHeight;
     if (!w || !h) return null;
-    const d = forceDpr != null ? forceDpr : Math.min(1.5, devicePixelRatio || 1);
+    const d = forceDpr != null ? forceDpr : Math.min(isMobile ? 1 : 1.25, devicePixelRatio || 1);
     c.width = Math.round(w * d);
     c.height = Math.round(h * d);
-    const x = c.getContext("2d");
+    const x = c.getContext("2d", { alpha: c.hasAttribute("data-live") });
     x.setTransform(d, 0, 0, d, 0, 0);
     return { x, w, h };
   };
@@ -665,9 +665,9 @@
       on = false,
       raf = 0,
       lastTick = 0;
-    // Optimize particle count for high 60fps throughput on retina/4K displays
-    const maxParts = isMobile ? 350 : 1100;
-    const fpsInterval = isMobile ? 1000 / 30 : 0;
+    // Optimize particle count & rendering budget for 60fps smoothness
+    const maxParts = isMobile ? 250 : 650;
+    const fpsInterval = 1000 / 60;
     const spawn = (w, h) => ({
       x: Math.random() * w,
       y: h * (0.15 + Math.random() * 0.95),
@@ -679,7 +679,7 @@
     const step = () => {
       const { x, w, h } = S;
       x.globalCompositeOperation = "destination-out";
-      x.fillStyle = "rgba(0,0,0,.05)";
+      x.fillStyle = "rgba(0,0,0,.06)";
       x.fillRect(0, 0, w, h);
       x.globalCompositeOperation = "lighter";
       const sc = 0.0016;
@@ -723,13 +723,14 @@
       t += 0.0012;
     };
     const setup = () => {
-      S = size(c, isMobile ? 1 : undefined);
+      // Force DPR 1 for the live dynamic particle canvas: avoids rendering 4x/9x pixels on Retina/4K/Mobile
+      S = size(c, 1);
       if (!S) return;
       S.x.clearRect(0, 0, S.w, S.h);
-      const N = Math.min(maxParts, ((S.w * S.h) / 850) | 0);
+      const N = Math.min(maxParts, ((S.w * S.h) / 1000) | 0);
       parts = Array.from({ length: N }, () => spawn(S.w, S.h));
-      // Lightweight pre-warm on desktop: 15 ticks instead of 70 to eliminate main thread hitch
-      if (!isMobile) for (let i = 0; i < 15; i++) step();
+      // Lightweight pre-warm: 8 ticks max
+      if (!isMobile) for (let i = 0; i < 8; i++) step();
     };
     const loop = (now) => {
       if (!on) return;
@@ -742,20 +743,24 @@
       raf = requestAnimationFrame(loop);
     };
 
-    new IntersectionObserver((es) => {
+    const obs = new IntersectionObserver((es) => {
       const v = es[0].isIntersecting && !document.hidden;
       if (v && !on) {
         on = true;
-        loop();
-      } else if (!v) {
+        loop(performance.now());
+      } else if (!v && on) {
         on = false;
         cancelAnimationFrame(raf);
       }
-    }).observe(c);
+    }, { threshold: 0.05 });
+    obs.observe(c);
     document.addEventListener("visibilitychange", () => {
-      if (document.hidden) {
+      if (document.hidden && on) {
         on = false;
         cancelAnimationFrame(raf);
+      } else if (!document.hidden && !on) {
+        on = true;
+        loop(performance.now());
       }
     });
     c._live = { resize: setup };
