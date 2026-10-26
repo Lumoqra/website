@@ -443,6 +443,10 @@ main > section {
     z-index: 100;
   }
 
+  .logo {
+    display: none;
+  }
+
   .menu-btn {
     display: grid;
     z-index: 102;
