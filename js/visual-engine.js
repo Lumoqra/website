@@ -90,35 +90,35 @@
   };
   const PAL = {
     night: {
-      bg: "#0a0908",
-      ramp: ["#030303", "#141210", "#3a362f", "#a39a8a", "#f4ecdd", "#ffffff"],
-      acc: "#d7ff3f",
+      bg: "#0d0917",
+      ramp: ["#05030a", "#120a22", "#29164c", "#6e44ff", "#a87ffb", "#ffd3e8"],
+      acc: "#a87ffb",
     },
     bone: {
       light: 1,
-      bg: "#e4ded2",
-      ramp: ["#3d3830", "#7c7468", "#b5ad9f", "#dcd5c8", "#efeae1", "#ffffff"],
-      acc: "#ff5a2e",
+      bg: "#faf8fb",
+      ramp: ["#231733", "#51366c", "#a87ffb", "#ffd3e8", "#f3eff6", "#ffffff"],
+      acc: "#ef6b78",
     },
     ember: {
-      bg: "#0f0604",
-      ramp: ["#050201", "#2a0c05", "#7e2310", "#e0542a", "#ffb27e", "#fff1e2"],
-      acc: "#ffe8c9",
+      bg: "#150912",
+      ramp: ["#080206", "#240612", "#5c112b", "#ef6b78", "#ff85ad", "#ffd3e8"],
+      acc: "#ffd3e8",
     },
     violet: {
-      bg: "#07060d",
-      ramp: ["#030208", "#140f2c", "#3b2f84", "#8f78f0", "#d9cfff", "#ffffff"],
-      acc: "#d7ff3f",
+      bg: "#090613",
+      ramp: ["#040208", "#150c2b", "#331c68", "#6e44ff", "#a87ffb", "#ffffff"],
+      acc: "#ff85ad",
     },
     lime: {
-      bg: "#c9f03a",
-      ramp: ["#121805", "#3d4f0b", "#8db318", "#d7ff3f", "#f1ffc2", "#ffffff"],
-      acc: "#0d0c0b",
+      bg: "#ff85ad",
+      ramp: ["#220611", "#4f0f27", "#a87ffb", "#ff85ad", "#ffd3e8", "#ffffff"],
+      acc: "#6e44ff",
     },
     ash: {
-      bg: "#121211",
-      ramp: ["#050505", "#1d1c1a", "#4d4a45", "#a8a197", "#ece6db", "#ffffff"],
-      acc: "#ff5a2e",
+      bg: "#110d1a",
+      ramp: ["#06040b", "#171124", "#352a4a", "#81729c", "#d1c6e6", "#ffffff"],
+      acc: "#ef6b78",
     },
   };
   PAL._stone = {

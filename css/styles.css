@@ -1,49 +1,73 @@
 @font-face {
-  font-family: "Oktah Neue";
+  font-family: "Clash Display";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: local("Oktah Neue Bold Italic"), url("../fonts/oktahneue-bdit.woff") format("woff");
+  src: url("../fonts/clash-display-700.woff2") format("woff2"),
+       url("../fonts/clash-display-700.woff") format("woff"),
+       url("../fonts/clash-display-700.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "Oktah Neue";
+  font-family: "Clash Display";
   font-style: normal;
-  font-weight: 200;
+  font-weight: 600;
   font-display: swap;
-  src: local("Oktah Neue UltraLight"), url("../fonts/oktahneue-ullt.woff") format("woff");
+  src: url("../fonts/clash-display-600.woff2") format("woff2");
 }
 
 :root {
-  --bg: #ebe6dc;
-  --surface: #f7f4ee;
-  --ink: #0d0c0b;
-  --panel: #0b0a09;
-  --on-panel: #efe9df;
-  --accent: #d7ff3f;
-  --ember: #ff5a2e;
-  --muted: color-mix(in oklab, var(--ink) 54%, var(--bg));
-  --line: color-mix(in oklab, var(--ink) 13%, transparent);
-  --panel-muted: color-mix(in oklab, var(--on-panel) 56%, var(--panel));
-  --panel-line: color-mix(in oklab, var(--on-panel) 15%, transparent);
-  --shade: color-mix(in oklab, var(--ink) 9%, var(--bg));
-  --font-logo: "Oktah Neue", "Host Grotesk", system-ui, sans-serif;
-  --font-display: "Host Grotesk", system-ui, sans-serif;
+  /* ── 60-30-10 Semantic Color System (OKLCH Tuned) ── */
+  --bg: #faf8fb;                        /* 60% Dominant Neutral (Clean bone with subtle violet warmth) */
+  --surface: #ffffff;                   /* Elevated surface */
+  --surface-subtle: #f3eff6;            /* Secondary tonal background */
+  --ink: #110d1a;                       /* High-contrast text (>16:1 against --bg) */
+  --muted: #5e566b;                     /* Muted secondary text (5.2:1 against --bg, WCAG AA compliant) */
+  --line: color-mix(in oklch, var(--ink) 9%, transparent);
+  --line-subtle: color-mix(in oklch, var(--ink) 5%, transparent);
+
+  /* ── 30% Structural Dark Panel Palette ── */
+  --panel: #0d0917;                     /* Deep obsidian-violet dark surface */
+  --panel-elevated: #161024;            /* Elevated card surface on dark panels */
+  --on-panel: #fcfaff;                  /* High-contrast text on panel (>17:1) */
+  --panel-muted: #a79cb8;               /* Muted text on panel (>5.5:1, AA compliant) */
+  --panel-line: color-mix(in oklch, var(--on-panel) 12%, transparent);
+
+  /* ── 10% Brand Identity & Accent Action Tokens ── */
+  --brand-primary: #6e44ff;             /* Electric Violet (Identity & Logo) */
+  --brand-secondary: #a87ffb;           /* Soft Lavender (Secondary identity gradient) */
+  --accent: #6e44ff;                    /* Primary interactive action color */
+  --accent-light: #b892ff;              /* Light accent for dark panel backgrounds */
+  --pastel-blush: #ffd3e8;              /* Soft rose-tinted neutral */
+  --pastel-rose: #ff85ad;               /* Secondary badge accent */
+  --coral-accent: #ef6b78;              /* Warm coral status/signal */
+  --ember: #ef6b78;                     /* Warm accent */
+  --shade: color-mix(in oklch, var(--brand-secondary) 12%, var(--bg));
+
+  /* ── Typography & Scaling ── */
+  --font-logo: "Clash Display", "Host Grotesk", system-ui, sans-serif;
+  --font-display: "Clash Display", "Host Grotesk", system-ui, sans-serif;
   --font-text: "Host Grotesk", system-ui, sans-serif;
   --font-serif: "Instrument Serif", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --r-xl: 30px;
-  --r-lg: 22px;
-  --r-md: 16px;
-  --r-sm: 10px;
-  --r-pill: 999px;
-  --frame: 10px;
+
+  /* ── Spacing, Radii & Depth ── */
+  --r-xl: 28px;
+  --r-lg: 20px;
+  --r-md: 14px;
+  --r-sm: 8px;
+  --r-pill: 9999px;
+  --frame: 12px;
   --gutter: clamp(16px, 2.6vw, 40px);
-  --space: clamp(96px, 11vw, 176px);
-  --header: 64px;
-  --t-giant: clamp(62px, 11.2vw, 168px);
-  --t-h2: clamp(32px, 4.2vw, 62px);
-  --ease: cubic-bezier(0.7, 0, 0.2, 1);
+  --space: clamp(96px, 10vw, 160px);
+  --header: 68px;
+  --t-giant: clamp(56px, 9.8vw, 150px);
+  --t-h2: clamp(32px, 3.8vw, 56px);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --shadow-sm: 0 2px 8px -2px rgba(17, 13, 26, 0.05);
+  --shadow-md: 0 8px 24px -6px rgba(17, 13, 26, 0.08);
+  --shadow-lg: 0 20px 48px -12px rgba(17, 13, 26, 0.12);
 }
 
 *,
@@ -239,7 +263,7 @@ main > section {
   display: inline-flex;
   align-items: center;
   height: 50px;
-  padding: 0 50px 0 22px;
+  padding: 0 48px 0 24px;
   border-radius: var(--r-pill);
   background: var(--ink);
   color: var(--bg);
@@ -249,45 +273,60 @@ main > section {
   white-space: nowrap;
   overflow: hidden;
   max-width: 100%;
-  transition: color 0.45s var(--ease);
+  border: 1px solid transparent;
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .btn::after {
   content: "";
   position: absolute;
-  z-index: -1;
-  right: 22px;
+  right: 20px;
   top: 50%;
-  width: 8px;
-  height: 8px;
-  margin-top: -4px;
+  width: 7px;
+  height: 7px;
+  margin-top: -3.5px;
   border-radius: 50%;
   background: var(--accent);
-  transition: transform 0.6s var(--ease);
+  transition: transform 0.3s var(--ease), background-color 0.3s var(--ease);
 }
 
 .btn--light {
-  background: var(--on-panel);
+  background: var(--surface);
   color: var(--ink);
+  border-color: var(--line);
 }
 
 .btn--sm {
   height: 40px;
-  padding: 0 38px 0 16px;
+  padding: 0 36px 0 16px;
   font-size: 14px;
 }
 
 .btn--sm::after {
-  right: 16px;
+  right: 14px;
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
   .btn:hover {
-    color: var(--ink);
+    background: color-mix(in oklch, var(--ink) 92%, var(--brand-primary));
+    color: var(--bg);
+    box-shadow: var(--shadow-sm);
   }
 
   .btn:hover::after {
-    transform: scale(260);
+    transform: scale(1.4);
+    background: var(--brand-secondary);
+  }
+
+  .btn--light:hover {
+    background: var(--surface-subtle);
+    color: var(--brand-primary);
+    border-color: color-mix(in oklch, var(--brand-primary) 30%, transparent);
   }
 }
 
@@ -371,12 +410,15 @@ main > section {
   font-family: var(--font-logo);
   font-style: normal;
   font-weight: 700;
-  font-size: 24px;
-  line-height: 0.9;
-  letter-spacing: -0.04em;
+  font-size: 25px;
+  line-height: 1.1;
+  padding-bottom: 0.12em;
+  letter-spacing: -0.02em;
   white-space: nowrap;
-  transform: skewX(9deg);
   display: inline-block;
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .nav {
@@ -572,12 +614,15 @@ main > section {
 .hero-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    color-mix(in oklab, var(--panel) 45%, transparent),
-    color-mix(in oklab, var(--panel) 0%, transparent) 42%,
-    color-mix(in oklab, var(--panel) 75%, transparent)
-  );
+  background: 
+    radial-gradient(ellipse 80% 60% at 50% 20%, rgba(110, 68, 255, 0.18), transparent 70%),
+    radial-gradient(circle at 85% 85%, rgba(239, 107, 120, 0.12), transparent 50%),
+    linear-gradient(
+      180deg,
+      rgba(13, 9, 23, 0.5) 0%,
+      rgba(13, 9, 23, 0.15) 45%,
+      rgba(13, 9, 23, 0.85) 100%
+    );
 }
 
 .grain {
@@ -649,12 +694,15 @@ main > section {
   font-weight: 700;
   /* 1.32× fills container cleanly without overflowing or clipping */
   font-size: min(calc(100cqw / var(--len) * 1.32), 50vh);
-  line-height: 0.88;
-  letter-spacing: -0.04em;
+  line-height: 1.0;
+  padding-bottom: 0.12em;
+  letter-spacing: -0.02em;
   white-space: nowrap;
   transform-origin: 0 0;
-  transform: skewX(9deg);
   margin-left: -0.02em;
+  background: linear-gradient(135deg, #ffffff 0%, var(--brand-secondary) 50%, var(--brand-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Row beneath the wordmark: clean flush left alignment */
@@ -747,7 +795,7 @@ main > section {
 .hero-stat-item .stat-num {
   font-size: clamp(22px, 2.2vw, 30px);
   font-weight: 700;
-  color: var(--accent);
+  color: var(--accent-light);
   letter-spacing: -0.02em;
   line-height: 1;
 }
@@ -802,7 +850,7 @@ main > section {
 }
 
 .hero-list li span {
-  color: var(--accent);
+  color: var(--accent-light);
   font-family: var(--font-mono);
   font-size: 11px;
 }
@@ -888,8 +936,8 @@ main > section {
 .work-grid {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(40px, 5vw, 80px) clamp(16px, 2vw, 28px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(32px, 3.5vw, 48px) clamp(18px, 2.2vw, 32px);
 }
 
 .project {
@@ -897,20 +945,35 @@ main > section {
   min-width: 0;
 }
 
-.project--wide {
-  grid-column: 1/-1;
-}
-
 .project-media {
   position: relative;
   border-radius: var(--r-md);
   overflow: hidden;
-  aspect-ratio: 5/4;
+  aspect-ratio: 16/10;
   background: var(--shade);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
 }
 
-.project--wide .project-media {
-  aspect-ratio: 21/9;
+@media (hover: hover) and (pointer: fine) {
+  .project:hover .project-media {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+@media (max-width: 960px) {
+  .work-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .work-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
 }
 
 .project-chip {
@@ -3065,7 +3128,7 @@ body {
   justify-content: center;
   gap: 12px;
   padding: 24px;
-  background: linear-gradient(135deg, var(--surface) 0%, color-mix(in oklab, var(--surface) 60%, var(--bg)) 100%);
+  background: linear-gradient(135deg, color-mix(in oklab, var(--pastel-blush) 25%, var(--surface)) 0%, color-mix(in oklab, var(--pastel-rose) 18%, var(--surface)) 100%);
   color: var(--ink);
   transition: transform 0.5s var(--ease);
 }
@@ -3076,9 +3139,10 @@ body {
   display: grid;
   place-items: center;
   border-radius: 14px;
-  background: var(--bg);
+  background: var(--surface);
   border: 1px solid var(--line);
-  color: var(--ink);
+  color: var(--brand-primary);
+  box-shadow: 0 4px 14px rgba(110, 68, 255, 0.08);
 }
 
 .project-placeholder-tag {
