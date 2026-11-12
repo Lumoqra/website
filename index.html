@@ -20,8 +20,9 @@
         href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" />
-    <link rel="preload" as="style" href="css/styles.css?v=1.0.8" />
-    <link rel="stylesheet" href="css/styles.css?v=1.0.8" />
+    <link rel="preload" href="fonts/oktahneue-bdit.woff" as="font" type="font/woff" crossorigin />
+    <link rel="preload" as="style" href="css/styles.css?v=1.1.1" />
+    <link rel="stylesheet" href="css/styles.css?v=1.1.1" />
 </head>
 
 <body>
@@ -30,6 +31,7 @@
         <a class="logo" href="#hero" data-flight-to>Lumoqra</a>
         <nav class="nav" id="site-nav" aria-label="Main Navigation">
             <a class="link" href="#hero">Home</a>
+            <a class="link" href="#services">Services</a>
             <a class="link" href="#projects">Projects</a>
             <a class="link" href="#about">About Us</a>
             <a class="link" href="#reviews">Client Stories</a>
@@ -79,20 +81,6 @@
                             <span>and digital experiences that propel visionary companies
                                 forward.</span>
                         </h1>
-                        <div class="hero-stats">
-                            <div class="hero-stat-item">
-                                <span class="stat-num mono">99.98%</span>
-                                <span class="stat-lbl">Uptime SLA Architecture</span>
-                            </div>
-                            <div class="hero-stat-item">
-                                <span class="stat-num mono">50M+</span>
-                                <span class="stat-lbl">Daily API Transactions</span>
-                            </div>
-                            <div class="hero-stat-item">
-                                <span class="stat-num mono">14+</span>
-                                <span class="stat-lbl">Production AI Pipelines</span>
-                            </div>
-                        </div>
                     </div>
                     <div class="hero-action-col">
                         <p class="hero-col-title mono">CORE SPECIALIZATIONS</p>
@@ -107,93 +95,7 @@
             </div>
         </section>
 
-        <!-- 2. PROJECTS SECTION -->
-        <section id="projects" class="work" data-section="exhibits">
-            <div class="sec-head wrap">
-                <div>
-                    <span class="mono sec-tag">Selected Engagements &amp; Case Studies</span>
-                    <h2 class="title dot">Projects</h2>
-                </div>
-                <p class="sec-lede">
-                    From high throughput fintech platforms to generative AI workflows,
-                    explore how we help market leaders build resilient software
-                    products.
-                </p>
-            </div>
-            <div class="work-grid wrap">
-                <a class="project" href="#contact">
-                    <div class="project-media" data-mask>
-                        <span class="project-chip mono">Healthcare · Telemedicine</span>
-                        <canvas class="art" data-art="petal" data-pal="bone" data-seed="12" role="img"
-                            aria-label="Patient telemetry network interface"></canvas>
-                    </div>
-                    <div class="project-meta">
-                        <h3 class="project-name">PulseCare Real-Time Diagnostics</h3>
-                        <p class="project-kind">HIPAA-Compliant Web Platform</p>
-                        <p class="project-year">2026</p>
-                    </div>
-                </a>
-                <a class="project" href="#contact">
-                    <div class="project-media" data-mask>
-                        <span class="project-chip mono">AI &amp; Automation</span>
-                        <canvas class="art" data-art="contour" data-pal="ember" data-seed="5" role="img"
-                            aria-label="Neural document intelligence interface"></canvas>
-                    </div>
-                    <div class="project-meta">
-                        <h3 class="project-name">Nexus AI Document Intelligence</h3>
-                        <p class="project-kind">LLM Integration &amp; Workflow Engine</p>
-                        <p class="project-year">2025</p>
-                    </div>
-                </a>
-                <a class="project" href="#contact">
-                    <div class="project-media" data-mask>
-                        <span class="project-chip mono">Logistics &amp; Supply</span>
-                        <canvas class="art" data-art="chrome" data-pal="ash" data-seed="9" role="img"
-                            aria-label="Fleet management optimization engine"></canvas>
-                    </div>
-                    <div class="project-meta">
-                        <h3 class="project-name">Aura Route &amp; Cargo Optimization</h3>
-                        <p class="project-kind">Real-Time Geospatial Platform</p>
-                        <p class="project-year">2025</p>
-                    </div>
-                </a>
-                <a class="project" href="#contact">
-                    <div class="project-media" data-mask>
-                        <span class="project-chip mono">E-Commerce &amp; Retail</span>
-                        <canvas class="art" data-art="orb" data-pal="violet" data-seed="17" role="img"
-                            aria-label="Interactive 3D digital storefront"></canvas>
-                    </div>
-                    <div class="project-meta">
-                        <h3 class="project-name">Luxe Commerce Headless Experience</h3>
-                        <p class="project-kind">Next-Gen Frontend &amp; Micro-frontend</p>
-                        <p class="project-year">2025</p>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- 3. ABOUT US & CAPABILITIES SECTION -->
-        <section id="about" class="about" data-section="about">
-            <div class="about-grid wrap">
-                <figure class="about-photo" data-speed=".08">
-                    <canvas class="art" data-art="bust" data-pal="night" data-seed="44" role="img"
-                        aria-label="Lumoqra engineering philosophy portrait"></canvas>
-                </figure>
-                <div class="about-copy">
-                    <h2 class="about-text" data-ink>
-                        We don’t just write code. We partner as your dedicated
-                        <span class="it">technology architects</span>, crafting robust
-                        solutions, accelerating time to market, and delivering software
-                        that scales effortlessly.
-                    </h2>
-                    <div class="about-foot">
-                        <a class="btn" href="#services">Our Service Capabilities</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SERVICES / CORE CAPABILITIES ACCORDION -->
+        <!-- 2. SERVICES SECTION -->
         <section id="services" class="services" data-section="programme">
             <div class="svc-track">
                 <div class="svc-stage" data-flood>
@@ -357,60 +259,214 @@
             </div>
         </section>
 
-        <!-- PROCESS / HOW WE COLLABORATE -->
-        <section id="process" class="process" data-section="process">
-            <div class="split-track">
-                <div class="split" data-split>
-                    <h2 class="split-title title dot">
-                        Agile delivery from discovery to production
-                    </h2>
-                    <figure class="split-photo">
-                        <canvas class="art" data-art="chrome" data-pal="ember" data-seed="81" role="img"
-                            aria-label="Precision software engineering process"></canvas>
-                    </figure>
+        <!-- 3. PROJECTS SECTION -->
+        <section id="projects" class="work" data-section="exhibits">
+            <div class="sec-head wrap">
+                <div>
+                    <span class="mono sec-tag">Selected Engagements &amp; Case Studies</span>
+                    <h2 class="title dot">Projects</h2>
                 </div>
+                <p class="sec-lede">
+                    From Chrome extensions and AI agents to neural audiobook pipelines,
+                    explore how we build resilient software products.
+                </p>
             </div>
-            <div class="steps wrap">
-                <div class="steps-track">
-                    <div class="steps-line" aria-hidden="true"></div>
-                    <ol class="step-list">
-                        <li class="step is-on">
-                            <span class="step-node" aria-hidden="true"></span>
-                            <span class="mono step-idx">01</span>
-                            <h3 class="step-title">Discovery &amp; Roadmapping</h3>
-                            <p class="step-text">
-                                We align on core objectives, technical constraints, KPIs, and
-                                deliverables to define an actionable blueprint.
+            <div class="work-grid wrap">
+                <!-- Card 1: Chrome Extension -->
+                <a class="project" href="#contact">
+                    <div class="project-media" data-mask>
+                        <span class="project-chip mono">Browser Tool · Chrome Extension</span>
+                        <div class="project-placeholder">
+                            <div class="project-placeholder-icon">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <circle cx="12" cy="12" r="4"/>
+                                    <line x1="21.17" y1="8" x2="12" y2="8"/>
+                                    <line x1="3.95" y1="6.06" x2="8.54" y2="14"/>
+                                    <line x1="10.88" y1="21.94" x2="15.46" y2="14"/>
+                                </svg>
+                            </div>
+                            <span class="mono project-placeholder-tag">Chrome Extension</span>
+                        </div>
+                    </div>
+                    <div class="project-meta">
+                        <h3 class="project-name">Chrome Extension</h3>
+                        <p class="project-kind">High-Performance Browser Extension</p>
+                        <p class="project-year">2026</p>
+                    </div>
+                </a>
+
+                <!-- Card 2: AI Agent -->
+                <a class="project" href="#contact">
+                    <div class="project-media" data-mask>
+                        <span class="project-chip mono">Autonomous AI · Multi-Agent</span>
+                        <div class="project-placeholder">
+                            <div class="project-placeholder-icon">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="11" width="18" height="10" rx="2"/>
+                                    <circle cx="12" cy="5" r="2"/>
+                                    <path d="M12 7v4"/>
+                                    <line x1="8" y1="16" x2="8" y2="16"/>
+                                    <line x1="16" y1="16" x2="16" y2="16"/>
+                                </svg>
+                            </div>
+                            <span class="mono project-placeholder-tag">AI Agent</span>
+                        </div>
+                    </div>
+                    <div class="project-meta">
+                        <h3 class="project-name">AI Agent</h3>
+                        <p class="project-kind">Autonomous Reasoning &amp; Workflow System</p>
+                        <p class="project-year">2026</p>
+                    </div>
+                </a>
+
+                <!-- Card 3: AI Audiobook -->
+                <a class="project" href="#contact">
+                    <div class="project-media" data-mask>
+                        <span class="project-chip mono">Voice AI · Neural Audio</span>
+                        <div class="project-placeholder">
+                            <div class="project-placeholder-icon">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+                                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+                                </svg>
+                            </div>
+                            <span class="mono project-placeholder-tag">AI Audiobook</span>
+                        </div>
+                    </div>
+                    <div class="project-meta">
+                        <h3 class="project-name">AI Audiobook</h3>
+                        <p class="project-kind">Studio Neural Voice &amp; Narration Engine</p>
+                        <p class="project-year">2026</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- 4. ABOUT US SECTION -->
+        <section id="about" class="about" data-section="about">
+            <div class="about-grid wrap">
+                <figure class="about-photo" data-speed=".08">
+                    <div class="about-team-vector">
+                        <svg class="about-team-svg" viewBox="0 0 400 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="teamGlow" x1="0" y1="0" x2="400" y2="520" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.12"/>
+                                    <stop offset="100%" stop-color="var(--ember)" stop-opacity="0.05"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="400" height="520" rx="16" fill="var(--surface)"/>
+                            <rect width="400" height="520" rx="16" fill="url(#teamGlow)"/>
+
+                            <!-- Background decorative code/circuit grid -->
+                            <g opacity="0.14" stroke="currentColor" stroke-width="1">
+                                <line x1="30" y1="50" x2="370" y2="50" />
+                                <line x1="30" y1="110" x2="370" y2="110" />
+                                <line x1="30" y1="170" x2="370" y2="170" />
+                                <line x1="30" y1="230" x2="370" y2="230" />
+                                <line x1="30" y1="290" x2="370" y2="290" />
+                                <line x1="30" y1="350" x2="370" y2="350" />
+                                <line x1="30" y1="410" x2="370" y2="410" />
+                                <line x1="30" y1="470" x2="370" y2="470" />
+                                <line x1="70" y1="30" x2="70" y2="490" />
+                                <line x1="140" y1="30" x2="140" y2="490" />
+                                <line x1="200" y1="30" x2="200" y2="490" />
+                                <line x1="260" y1="30" x2="260" y2="490" />
+                                <line x1="330" y1="30" x2="330" y2="490" />
+                            </g>
+
+                            <!-- Central Node Connection Rings -->
+                            <circle cx="200" cy="210" r="145" stroke="var(--ink)" stroke-width="1" stroke-dasharray="4 6" opacity="0.2"/>
+                            <circle cx="200" cy="210" r="95" stroke="var(--accent)" stroke-width="1.5" opacity="0.55"/>
+                            <circle cx="200" cy="210" r="45" stroke="var(--ink)" stroke-width="1" stroke-dasharray="2 4" opacity="0.3"/>
+
+                            <!-- Team Member 1 (Lead Software Architect - Center) -->
+                            <g transform="translate(200, 165)">
+                                <circle cx="0" cy="-30" r="26" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/>
+                                <path d="M-14 -32 Q0 -48 14 -32" stroke="var(--accent)" stroke-width="2.5" fill="none"/>
+                                <path d="M-36 32 C-36 -2 -24 -10 0 -10 C24 -10 36 -2 36 32" fill="var(--panel)"/>
+                                <circle cx="0" cy="-30" r="6" fill="var(--accent)"/>
+                            </g>
+
+                            <!-- Team Member 2 (AI & Neural Engineer - Left) -->
+                            <g transform="translate(100, 240)">
+                                <circle cx="0" cy="-24" r="22" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/>
+                                <path d="M-30 28 C-30 -2 -20 -8 0 -8 C20 -8 30 -2 30 28" fill="var(--ink)" opacity="0.88"/>
+                                <circle cx="0" cy="-24" r="5" fill="var(--ember)"/>
+                            </g>
+
+                            <!-- Team Member 3 (Product & Systems Lead - Right) -->
+                            <g transform="translate(300, 240)">
+                                <circle cx="0" cy="-24" r="22" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/>
+                                <path d="M-30 28 C-30 -2 -20 -8 0 -8 C20 -8 30 -2 30 28" fill="var(--ink)" opacity="0.88"/>
+                                <circle cx="0" cy="-24" r="5" fill="var(--accent)"/>
+                            </g>
+
+                            <!-- Collaborative Connection Lines & Synapses -->
+                            <path d="M100 216 Q200 130 300 216" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.35"/>
+                            <path d="M100 240 L200 195 L300 240" stroke="var(--accent)" stroke-width="1.5" opacity="0.75"/>
+                            <path d="M100 268 L200 340 L300 268" stroke="var(--ink)" stroke-width="1" stroke-dasharray="2 2" opacity="0.25"/>
+
+                            <!-- Floating Tech Chips & Badges -->
+                            <g transform="translate(50, 95)">
+                                <rect width="78" height="26" rx="13" fill="var(--panel)"/>
+                                <text x="39" y="17" fill="var(--on-panel)" font-family="monospace" font-size="10" text-anchor="middle">&lt;FULLSTACK/&gt;</text>
+                            </g>
+                            <g transform="translate(265, 95)">
+                                <rect width="84" height="26" rx="13" fill="var(--accent)"/>
+                                <text x="42" y="17" fill="var(--ink)" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">NEURAL AI</text>
+                            </g>
+                            <g transform="translate(145, 335)">
+                                <rect width="110" height="28" rx="14" fill="var(--ink)"/>
+                                <text x="55" y="18" fill="var(--bg)" font-family="monospace" font-size="10" text-anchor="middle">ARCHITECTURE</text>
+                            </g>
+
+                            <!-- Floating Data Pulses -->
+                            <circle cx="80" cy="175" r="3.5" fill="var(--ember)"/>
+                            <circle cx="320" cy="175" r="3.5" fill="var(--accent)"/>
+                            <circle cx="200" cy="75" r="4" fill="var(--accent)"/>
+
+                            <!-- Base Platform -->
+                            <ellipse cx="200" cy="410" rx="130" ry="26" fill="var(--ink)" opacity="0.08"/>
+                            <ellipse cx="200" cy="405" rx="88" ry="16" fill="var(--accent)" opacity="0.25"/>
+                        </svg>
+                    </div>
+                </figure>
+                <div class="about-copy">
+                    <h2 class="about-text" data-ink>
+                        We partner as your dedicated
+                        <span class="it">technology architects</span>, crafting robust
+                        solutions, accelerating time to market, and delivering software
+                        that scales effortlessly.
+                    </h2>
+                    <p class="about-narrative">
+                        At Lumoqra, we combine high-conviction engineering with modern generative AI capabilities. From full-cycle browser extensions to autonomous agent architectures and production-grade neural media pipelines, we deliver resilient software designed for performance, compliance, and enterprise scale.
+                    </p>
+
+                    <!-- Core Value Pillars -->
+                    <div class="about-pillars">
+                        <div class="pillar-card">
+                            <span class="mono pillar-num">01 / ARCHITECTURE</span>
+                            <h3 class="pillar-title">Scalable by Design</h3>
+                            <p class="pillar-desc">
+                                Enterprise-ready software frameworks with modular design, sub-second latency, and fault-tolerant system performance.
                             </p>
-                        </li>
-                        <li class="step">
-                            <span class="step-node" aria-hidden="true"></span>
-                            <span class="mono step-idx">02</span>
-                            <h3 class="step-title">Architecture &amp; Prototyping</h3>
-                            <p class="step-text">
-                                We build scalable system architectures, interactive digital
-                                prototypes, and establish benchmark performance tests.
+                        </div>
+                        <div class="pillar-card">
+                            <span class="mono pillar-num">02 / INTELLIGENCE</span>
+                            <h3 class="pillar-title">Applied AI Systems</h3>
+                            <p class="pillar-desc">
+                                Bespoke multi-agent workflows, autonomous LLM reasoning, and neural synthetic media engines tailored for modern products.
                             </p>
-                        </li>
-                        <li class="step">
-                            <span class="step-node" aria-hidden="true"></span>
-                            <span class="mono step-idx">03</span>
-                            <h3 class="step-title">Agile Build Sprints</h3>
-                            <p class="step-text">
-                                Bi-weekly milestone demos with complete code review, automated
-                                test coverage, and transparent project tracking.
+                        </div>
+                        <div class="pillar-card">
+                            <span class="mono pillar-num">03 / VELOCITY</span>
+                            <h3 class="pillar-title">Rapid Time-to-Market</h3>
+                            <p class="pillar-desc">
+                                Direct senior engineering involvement, transparent sprints, and rigorous quality assurance from day zero to production.
                             </p>
-                        </li>
-                        <li class="step">
-                            <span class="step-node" aria-hidden="true"></span>
-                            <span class="mono step-idx">04</span>
-                            <h3 class="step-title">Deployment &amp; Hypercare</h3>
-                            <p class="step-text">
-                                Production rollout with automated monitoring, uptime SLAs,
-                                documentation transfer, and post-launch optimization.
-                            </p>
-                        </li>
-                    </ol>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -549,22 +605,6 @@
                             modernization project? Reach out to discuss timelines, scope,
                             and technical strategy.
                         </p>
-                        <ul class="contact-notes">
-                            <li>
-                                <strong>Direct Response</strong>
-                                A senior engineering partner will review your inquiry and
-                                reply within 24 hours.
-                            </li>
-                            <li>
-                                <strong>NDA First</strong>
-                                We gladly provide non-disclosure agreements before reviewing
-                                proprietary project specs.
-                            </li>
-                        </ul>
-                        <a class="btn btn--sm contact-email-btn" href="mailto:lumoqra@gmail.com">
-                            ✉ lumoqra@gmail.com
-                        </a>
-
                     </div>
                     <form class="form" action="#" method="post"
                         data-sent="Thank you! We received your message and a senior partner will respond within one business day.">
@@ -621,23 +661,12 @@
             <nav class="foot-col" aria-label="Footer Navigation">
                 <p class="foot-h mono">Quick Links</p>
                 <a class="link" href="#hero">Homepage</a>
+                <a class="link" href="#services">Services</a>
                 <a class="link" href="#projects">Projects</a>
                 <a class="link" href="#about">About Us</a>
                 <a class="link" href="#reviews">Client Stories</a>
                 <a class="link" href="#contact">Contact Us</a>
             </nav>
-        </div>
-        <div class="foot-mark-wrap">
-            <p class="foot-mark" style="--len: 7">
-                Lumoqra
-            </p>
-        </div>
-        <div class="foot-bottom wrap">
-            <p>© 2026 Lumoqra Technologies Inc. All rights reserved.</p>
-            <p class="mono">
-                Engineered with precision &amp; generative aesthetics
-            </p>
-            <a class="link" href="#">Privacy Policy &amp; Terms</a>
         </div>
     </footer>
 
