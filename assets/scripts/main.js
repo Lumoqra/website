@@ -98,76 +98,82 @@
     window.addEventListener("scroll", () => ScrollTrigger.update(), { passive: true });
   }
 
-  // ── Hero to Services Snap Controller (Mobile & Desktop) ──────────
-  // Specifically snaps from Hero into Services when scrolling down,
-  // and back to Hero when scrolling up from Services. Everywhere else is free scrolling.
-  const getServicesTop = () => {
-    const services = document.getElementById("services");
-    if (!services) return window.innerHeight;
+  // ── Snap Controller (Hero -> About Us -> Services) ──────────
+  // Gentle, lighter snapping into sections without aggressive scroll hijacking.
+  const getSectionTop = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return window.innerHeight;
     const header = document.querySelector(".site-header");
     const headerH = header ? header.offsetHeight : 0;
-    return Math.max(0, services.offsetTop - headerH);
+    return Math.max(0, el.offsetTop - headerH);
   };
 
-  let isHeroSnapping = false;
-  let heroSnapCooldown = 0;
+  let isSnapping = false;
+  let snapCooldown = 0;
 
-  const snapHeroService = (targetPos) => {
-    isHeroSnapping = true;
+  const snapToTarget = (targetPos) => {
+    isSnapping = true;
     if (lenis) {
       lenis.scrollTo(targetPos, {
-        duration: 0.95,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        duration: 0.7, // lighter, softer snap duration
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -8 * t)),
         onComplete: () => {
           setTimeout(() => {
-            isHeroSnapping = false;
-          }, 80);
+            isSnapping = false;
+          }, 60);
         },
       });
     } else {
       window.scrollTo({ top: targetPos, behavior: "smooth" });
       setTimeout(() => {
-        isHeroSnapping = false;
-      }, 600);
+        isSnapping = false;
+      }, 500);
     }
   };
 
-  // Wheel interception: Hero <-> Services snap only
+  // Wheel interception: Lighter thresholds, supports Hero <-> About Us and About Us -> Services
   window.addEventListener(
     "wheel",
     (e) => {
-      if (isHeroSnapping) {
+      if (isSnapping) {
         e.preventDefault();
         return;
       }
       const now = Date.now();
-      if (now - heroSnapCooldown < 350) return;
+      if (now - snapCooldown < 300) return;
 
-      const servicesTop = getServicesTop();
+      const aboutTop = getSectionTop("about");
+      const servicesTop = getSectionTop("services");
       const currentY = lenis ? lenis.scroll : (window.pageYOffset || document.documentElement.scrollTop);
 
-      // In Hero scrolling DOWN -> snap directly to Services
-      if (currentY < servicesTop * 0.75 && e.deltaY > 4) {
+      // Hero -> About Us (light delta threshold)
+      if (currentY < aboutTop * 0.7 && e.deltaY > 16) {
         e.preventDefault();
-        heroSnapCooldown = now;
-        snapHeroService(servicesTop);
+        snapCooldown = now;
+        snapToTarget(aboutTop);
       }
-      // At top of Services scrolling UP -> snap back to Hero
-      else if (currentY > 20 && currentY <= servicesTop + 60 && e.deltaY < -4) {
+      // About Us -> Hero (scrolling up near top of About)
+      else if (currentY > 40 && currentY <= aboutTop + 40 && e.deltaY < -16) {
         e.preventDefault();
-        heroSnapCooldown = now;
-        snapHeroService(0);
+        snapCooldown = now;
+        snapToTarget(0);
+      }
+      // About Us bottom -> Services (light delta threshold)
+      else if (currentY > aboutTop && currentY < servicesTop - 120 && currentY > servicesTop - 320 && e.deltaY > 20) {
+        e.preventDefault();
+        snapCooldown = now;
+        snapToTarget(servicesTop);
       }
     },
     { passive: false }
   );
 
-  // Mobile Touch Swipe: Hero <-> Services snap only
-  let touchStartHeroY = 0;
+  // Mobile Touch Swipe: Lighter touch snap
+  let touchStartY = 0;
   window.addEventListener(
     "touchstart",
     (e) => {
-      if (e.touches.length === 1) touchStartHeroY = e.touches[0].clientY;
+      if (e.touches.length === 1) touchStartY = e.touches[0].clientY;
     },
     { passive: true }
   );
@@ -175,18 +181,23 @@
   window.addEventListener(
     "touchend",
     (e) => {
-      if (isHeroSnapping) return;
-      const diffY = touchStartHeroY - e.changedTouches[0].clientY;
-      const servicesTop = getServicesTop();
+      if (isSnapping) return;
+      const diffY = touchStartY - e.changedTouches[0].clientY;
+      const aboutTop = getSectionTop("about");
+      const servicesTop = getSectionTop("services");
       const currentY = lenis ? lenis.scroll : (window.pageYOffset || document.documentElement.scrollTop);
 
-      // Swiped UP in Hero (scroll down) -> snap to Services
-      if (currentY < servicesTop * 0.75 && diffY > 30) {
-        snapHeroService(servicesTop);
+      // Swiped UP in Hero (scroll down) -> snap to About Us
+      if (currentY < aboutTop * 0.7 && diffY > 45) {
+        snapToTarget(aboutTop);
       }
-      // Swiped DOWN at Services (scroll up) -> snap to Hero
-      else if (currentY > 20 && currentY <= servicesTop + 80 && diffY < -30) {
-        snapHeroService(0);
+      // Swiped DOWN at About Us (scroll up) -> snap to Hero
+      else if (currentY > 40 && currentY <= aboutTop + 60 && diffY < -45) {
+        snapToTarget(0);
+      }
+      // Swiped UP approaching Services -> snap to Services
+      else if (currentY > aboutTop && currentY < servicesTop - 100 && currentY > servicesTop - 280 && diffY > 50) {
+        snapToTarget(servicesTop);
       }
     },
     { passive: true }
