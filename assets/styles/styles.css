@@ -1,11 +1,17 @@
 @font-face {
+  font-family: "Outfit";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/outfit-latin-700-normal.woff2") format("woff2");
+}
+
+@font-face {
   font-family: "Clash Display";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("../fonts/clash-display-700.woff2") format("woff2"),
-       url("../fonts/clash-display-700.woff") format("woff"),
-       url("../fonts/clash-display-700.ttf") format("truetype");
+  src: url("../fonts/clash-display-700.woff2") format("woff2");
 }
 
 @font-face {
@@ -17,36 +23,37 @@
 }
 
 :root {
-  /* ── 60-30-10 Semantic Color System (OKLCH Tuned) ── */
-  --bg: #faf8fb;                        /* 60% Dominant Neutral (Clean bone with subtle violet warmth) */
+  /* ── 60-30-10 Semantic Color System (Aligned with Official Brand Kit) ── */
+  --bg: #faf8fc;                        /* 60% Dominant Neutral */
   --surface: #ffffff;                   /* Elevated surface */
-  --surface-subtle: #f3eff6;            /* Secondary tonal background */
-  --ink: #110d1a;                       /* High-contrast text (>16:1 against --bg) */
-  --muted: #5e566b;                     /* Muted secondary text (5.2:1 against --bg, WCAG AA compliant) */
+  --surface-subtle: #f5f0fa;            /* Secondary tonal background */
+  --ink: #12071f;                       /* High-contrast brand dark (>16:1 against --bg) */
+  --muted: #5f5470;                     /* Muted secondary text (WCAG AA compliant) */
   --line: color-mix(in oklch, var(--ink) 9%, transparent);
   --line-subtle: color-mix(in oklch, var(--ink) 5%, transparent);
 
-  /* ── 30% Structural Dark Panel Palette ── */
-  --panel: #0d0917;                     /* Deep obsidian-violet dark surface */
-  --panel-elevated: #161024;            /* Elevated card surface on dark panels */
-  --on-panel: #fcfaff;                  /* High-contrast text on panel (>17:1) */
-  --panel-muted: #a79cb8;               /* Muted text on panel (>5.5:1, AA compliant) */
-  --panel-line: color-mix(in oklch, var(--on-panel) 12%, transparent);
+  /* ── 30% Structural Dark Panel Palette (Brand Kit Dark: #12071F) ── */
+  --panel: #12071f;                     /* Official Brand Kit Dark Background */
+  --panel-elevated: #1a0c2c;            /* Elevated card surface on dark panels */
+  --on-panel: #ffffff;                  /* High-contrast text on panel (>17:1) */
+  --panel-muted: #c4b5fd;               /* Official Brand Kit Light Purple (#C4B5FD) */
+  --panel-line: color-mix(in oklch, var(--panel-muted) 16%, transparent);
 
-  /* ── 10% Brand Identity & Accent Action Tokens ── */
-  --brand-primary: #6e44ff;             /* Electric Violet (Identity & Logo) */
-  --brand-secondary: #a87ffb;           /* Soft Lavender (Secondary identity gradient) */
-  --accent: #6e44ff;                    /* Primary interactive action color */
-  --accent-light: #b892ff;              /* Light accent for dark panel backgrounds */
-  --pastel-blush: #ffd3e8;              /* Soft rose-tinted neutral */
-  --pastel-rose: #ff85ad;               /* Secondary badge accent */
-  --coral-accent: #ef6b78;              /* Warm coral status/signal */
+  /* ── 10% Brand Identity & Accent Action Tokens (Brand Kit: #6D28D9) ── */
+  --brand-primary: #6d28d9;             /* Official Lumoqra Brand Purple */
+  --brand-secondary: #c4b5fd;           /* Official Light Purple for dark bg */
+  --accent: #6d28d9;                    /* Primary interactive action color */
+  --accent-light: #c4b5fd;              /* Light accent for dark panel backgrounds */
+  --accent-glow: rgba(109, 40, 217, 0.28);
+  --pastel-blush: #f3e8ff;              /* Soft brand lavender neutral */
+  --pastel-rose: #d8b4fe;               /* Secondary badge accent */
+  --coral-accent: #ef6b78;              /* Warm status indicator */
   --ember: #ef6b78;                     /* Warm accent */
-  --shade: color-mix(in oklch, var(--brand-secondary) 12%, var(--bg));
+  --shade: color-mix(in oklch, var(--brand-primary) 8%, var(--bg));
 
   /* ── Typography & Scaling ── */
-  --font-logo: "Clash Display", "Host Grotesk", system-ui, sans-serif;
-  --font-display: "Clash Display", "Host Grotesk", system-ui, sans-serif;
+  --font-logo: "Outfit", "Clash Display", -apple-system, sans-serif;
+  --font-display: "Clash Display", "Outfit", -apple-system, sans-serif;
   --font-text: "Host Grotesk", system-ui, sans-serif;
   --font-serif: "Instrument Serif", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
@@ -59,7 +66,7 @@
   --r-pill: 9999px;
   --frame: 12px;
   --gutter: clamp(16px, 2.6vw, 40px);
-  --space: clamp(96px, 10vw, 160px);
+  --space: clamp(48px, 5.5vw, 80px);
   --header: 68px;
   --t-giant: clamp(56px, 9.8vw, 150px);
   --t-h2: clamp(32px, 3.8vw, 56px);
@@ -79,6 +86,37 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-padding-top: var(--header);
+}
+
+/* ── Smooth Scrolling (Lenis / Locomotive style) ─────────── */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* ── Global section rhythm ───────────────────────────────── */
+main > section {
+  padding-block: var(--space);
+}
+
+/* Hero is full-viewport — override back to 0 so it doesn't add extra */
+main > section.hero--simple {
+  padding-block: 0;
 }
 
 body {
@@ -243,7 +281,7 @@ main > section {
   grid-template-columns: minmax(0, 1fr) minmax(0, 360px);
   gap: 24px 48px;
   align-items: end;
-  margin-bottom: clamp(40px, 6vw, 88px);
+  margin-bottom: clamp(24px, 3.5vw, 44px);
 }
 
 .sec-lede {
@@ -407,18 +445,19 @@ main > section {
 }
 
 .logo {
-  font-family: var(--font-logo);
-  font-style: normal;
-  font-weight: 700;
-  font-size: 25px;
-  line-height: 1.1;
-  padding-bottom: 0.12em;
-  letter-spacing: -0.02em;
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  width: auto;
+  color: var(--brand-primary);
+  text-decoration: none;
   white-space: nowrap;
-  display: inline-block;
-  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+}
+
+.brand-logo-svg {
+  height: 100%;
+  width: auto;
+  display: block;
 }
 
 .nav {
@@ -535,7 +574,10 @@ main > section {
   }
 
   .logo {
-    display: none;
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    z-index: 102;
   }
 
   .menu-btn {
@@ -687,22 +729,17 @@ main > section {
 .wordmark {
   position: relative;
   z-index: 60;
-  width: fit-content;
+  width: min(100%, 720px);
   max-width: 100%;
-  font-family: var(--font-logo);
-  font-style: normal;
-  font-weight: 700;
-  /* 1.32× fills container cleanly without overflowing or clipping */
-  font-size: min(calc(100cqw / var(--len) * 1.32), 50vh);
-  line-height: 1.0;
-  padding-bottom: 0.12em;
-  letter-spacing: -0.02em;
-  white-space: nowrap;
   transform-origin: 0 0;
-  margin-left: -0.02em;
-  background: linear-gradient(135deg, #ffffff 0%, var(--brand-secondary) 50%, var(--brand-primary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  margin-left: -0.01em;
+  display: block;
+}
+
+.brand-hero-svg {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* Row beneath the wordmark: clean flush left alignment */
@@ -931,6 +968,8 @@ main > section {
 
 .work {
   padding-block: var(--space);
+  content-visibility: auto;
+  contain-intrinsic-size: 0 600px;
 }
 
 .work-grid {
@@ -1050,6 +1089,8 @@ main > section {
 
 .about {
   padding-block: var(--space);
+  content-visibility: auto;
+  contain-intrinsic-size: 0 700px;
 }
 
 .about-grid {
@@ -1320,7 +1361,7 @@ main > section {
 }
 
 .process {
-  padding-top: clamp(40px, 6vw, 72px);
+  padding-block: var(--space);
 }
 
 .split {
@@ -1546,6 +1587,8 @@ main > section {
 
 .reviews {
   padding-block: var(--space);
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
 }
 
 .rev-head {
@@ -1632,13 +1675,47 @@ main > section {
   gap: 12px;
 }
 
-.review-face {
+/* Company logo badge in reviews */
+.review-logo {
+  position: relative;
   width: 56px;
   height: 56px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: var(--shade);
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--surface);
   flex: none;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.review-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8px;
+}
+
+/* Shown when logo image is missing / not yet uploaded */
+.review-logo-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--brand-primary);
+  background: color-mix(in oklch, var(--brand-primary) 10%, var(--surface));
+  font-family: var(--font-display);
+  z-index: 0;
+}
+
+/* Hide fallback when real logo loads */
+.review-logo img + .review-logo-fallback {
+  z-index: -1;
 }
 
 .review-name {
@@ -2474,6 +2551,8 @@ main > section {
 
 .contact {
   padding-block: var(--space);
+  content-visibility: auto;
+  contain-intrinsic-size: 0 700px;
 }
 
 .contact-panel {
@@ -2773,7 +2852,7 @@ body {
 /* ─── Hero wordmark: scale down progressively ─────────────────────────────── */
 @media (max-width: 1200px) {
   .wordmark {
-    font-size: min(calc(100cqw / var(--len) * 1.2), 50vh);
+    width: min(100%, 640px);
   }
   .hero-studio {
     font-size: clamp(20px, 2.8vw, 42px);
@@ -2788,7 +2867,7 @@ body {
   }
 
   .wordmark {
-    font-size: min(calc(100cqw / var(--len) * 1.35), 45vh);
+    width: min(100%, 540px);
   }
 
   .hero-studio {
@@ -2845,8 +2924,7 @@ body {
 
   /* Wordmark: big, bold and fills the hero */
   .wordmark {
-    font-size: min(calc(100cqw / var(--len) * 1.35), 18vh);
-    line-height: 0.92;
+    width: min(100%, 420px);
   }
 
   /* Subtitle: prominent Software & Digital Systems */
@@ -2903,7 +2981,7 @@ body {
 
 @media (max-width: 480px) {
   .wordmark {
-    font-size: min(calc(100cqw / var(--len) * 1.3), 16vh);
+    width: min(100%, 340px);
   }
 
   /* Hide CTA in header on tiny screens */
@@ -3166,5 +3244,641 @@ body {
   }
   .project:hover .project-media img {
     transform: scale(1.04);
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   HERO — Simple layout (hero--simple)
+   ══════════════════════════════════════════════════════════ */
+.hero--simple {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--panel);
+  position: relative;
+  overflow: hidden;
+  --mouse-x: 50%;
+  --mouse-y: 45%;
+}
+
+.hero-bg-visuals {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* 1. React Bits Shape Grid Container */
+.shape-grid {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.shape-grid-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.hero-shape-grid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* 2. Interactive Spotlight tracking mouse (React Bits Spotlight) */
+.hero-spotlight {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    650px circle at var(--mouse-x) var(--mouse-y),
+    rgba(139, 92, 246, 0.18),
+    rgba(109, 40, 217, 0.08) 35%,
+    transparent 70%
+  );
+  transition: opacity 0.3s ease;
+  will-change: background;
+}
+
+/* 3. Floating Aurora Ambient Orbs (React Bits Aurora) */
+.hero-aurora-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.35;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+.hero-aurora--1 {
+  width: min(540px, 80vw);
+  height: min(540px, 80vw);
+  background: radial-gradient(circle, #6d28d9 0%, rgba(109, 40, 217, 0) 70%);
+  top: 15%;
+  left: 20%;
+  animation: auroraFloat1 18s ease-in-out infinite alternate;
+}
+
+.hero-aurora--2 {
+  width: min(460px, 70vw);
+  height: min(460px, 70vw);
+  background: radial-gradient(circle, #8b5cf6 0%, rgba(139, 92, 246, 0) 70%);
+  bottom: 20%;
+  right: 18%;
+  animation: auroraFloat2 15s ease-in-out infinite alternate;
+}
+
+@keyframes auroraFloat1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, -40px) scale(1.12); }
+  100% { transform: translate(-40px, 30px) scale(0.92); }
+}
+
+@keyframes auroraFloat2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, 45px) scale(1.15); }
+  100% { transform: translate(40px, -35px) scale(0.9); }
+}
+
+/* 4. Interactive Particles Canvas */
+.hero-particles-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* 5. Sleek Tech Status Pill Badge */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--r-pill, 999px);
+  background: rgba(196, 181, 253, 0.06);
+  border: 1px solid rgba(196, 181, 253, 0.16);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--panel-muted);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  animation: badgeFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a78bfa;
+  box-shadow: 0 0 10px #a78bfa, 0 0 20px #8b5cf6;
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.85); }
+}
+
+@keyframes badgeFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-simple-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: var(--space) 1.5rem;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.hero-logo-mark {
+  width: min(720px, 88vw);
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 0 45px rgba(139, 92, 246, 0.25)) drop-shadow(0 0 90px rgba(109, 40, 217, 0.15));
+  transition: filter 0.5s ease;
+}
+
+.hero-logo-mark:hover {
+  filter: drop-shadow(0 0 55px rgba(167, 139, 250, 0.38)) drop-shadow(0 0 110px rgba(109, 40, 217, 0.24));
+}
+
+.hero-logo-mark .brand-hero-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hero-motto {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.25em 0.4em;
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.35vw, 1.25rem);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  margin: 0;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.hero-motto-main {
+  color: #e2e8f0;
+  letter-spacing: 0.01em;
+}
+
+.hero-motto-accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.15em;
+  letter-spacing: -0.01em;
+  background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  filter: drop-shadow(0 0 16px rgba(167, 139, 250, 0.3));
+}
+
+/* ══════════════════════════════════════════════════════════
+   SERVICES — Tab layout
+   ══════════════════════════════════════════════════════════ */
+.svc-subtitle {
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+  color: var(--muted);
+  margin: 0.5rem 0 0;
+}
+
+.svc-tabs {
+  margin-top: 0;
+}
+
+.svc-tab-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0;
+  margin-bottom: 2.5rem;
+}
+
+.svc-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.25rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  margin-bottom: -1px;
+  white-space: nowrap;
+}
+
+.svc-tab-btn .mono {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+.svc-tab-btn:hover {
+  color: var(--ink);
+}
+
+.svc-tab-btn.is-active {
+  color: var(--ink);
+  border-bottom-color: var(--brand-primary);
+}
+
+.svc-tab-btn.is-active .mono {
+  opacity: 1;
+  color: var(--brand-primary);
+}
+
+/* Panels */
+.svc-tab-panel {
+  display: none;
+}
+
+.svc-tab-panel.is-active {
+  display: block;
+  animation: tabFadeIn 0.3s ease;
+}
+
+@keyframes tabFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.svc-panel-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+/* Media slot */
+.svc-media-slot {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: var(--r-lg, 12px);
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+}
+
+.svc-media-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.svc-media-placeholder svg {
+  opacity: 0.4;
+}
+
+/* When a real video/image is placed inside .svc-media-slot */
+.svc-media-slot video,
+.svc-media-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Info column */
+.svc-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Desktop: card head hidden inside tabs */
+.svc-card-head {
+  display: none;
+}
+
+/* Responsive: Sequential Story Cards on mobile */
+@media (max-width: 760px) {
+  /* Hide desktop tab bar on mobile to eliminate tab drop-off */
+  .svc-tab-nav {
+    display: none;
+  }
+
+  /* Reveal all 4 panels as sequential, self-contained visual story cards */
+  .svc-tab-panels {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .svc-tab-panel {
+    display: flex !important;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    padding: 1.25rem;
+    animation: none;
+  }
+
+  .svc-card-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .svc-card-num {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--brand-primary);
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: color-mix(in oklab, var(--brand-primary) 15%, transparent);
+    border: 1px solid color-mix(in oklab, var(--brand-primary) 30%, transparent);
+  }
+
+  .svc-card-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .svc-panel-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .svc-info {
+    gap: 1rem;
+  }
+
+  .svc-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .hero-logo-mark {
+    width: min(420px, 90vw);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   ABOUT — section heading
+   ══════════════════════════════════════════════════════════ */
+/* About sec-head sits inside the section's padding-block — no extra top needed */
+.about > .sec-head {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   PROJECTS — Redesigned modern cards (pcard)
+   ══════════════════════════════════════════════════════════ */
+
+/* Section header */
+.projects-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: 1.5rem 3rem;
+  padding-bottom: clamp(20px, 2.5vw, 32px);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: clamp(24px, 3.5vw, 44px);
+}
+
+.projects-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.projects-eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand-primary);
+  opacity: 0.9;
+}
+
+.projects-lede {
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 42ch;
+  margin: 0;
+}
+
+/* 3-column grid */
+.projects-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+/* Card */
+.pcard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--surface);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pcard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    border-color: color-mix(in oklab, var(--brand-primary) 40%, transparent);
+  }
+  .pcard:hover .pcard-cta {
+    color: var(--brand-primary);
+    gap: 0.6rem;
+  }
+  .pcard:hover .pcard-img-wrap {
+    transform: scale(1.03);
+  }
+}
+
+/* Media area */
+.pcard-media {
+  position: relative;
+  overflow: hidden;
+  background: var(--panel);
+}
+
+.pcard-img-wrap {
+  aspect-ratio: 16/10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: transform 0.5s ease;
+}
+
+/* Real image/video fills the slot */
+.pcard-img-wrap img,
+.pcard-img-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Placeholder until real media is added */
+.pcard-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  opacity: 0.35;
+}
+
+/* Tag row overlaid on media */
+.pcard-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(to top, var(--panel) 60%, transparent);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.pcard-tag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: color-mix(in oklab, var(--brand-primary) 20%, transparent);
+  color: var(--panel-muted);
+  border: 1px solid color-mix(in oklab, var(--brand-primary) 35%, transparent);
+}
+
+/* Card body */
+.pcard-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.4rem 1.5rem 1.5rem;
+  flex: 1;
+}
+
+.pcard-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pcard-num {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--brand-primary);
+  opacity: 0.8;
+}
+
+.pcard-year {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+.pcard-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--ink);
+  margin: 0;
+}
+
+.pcard-desc {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0;
+  flex: 1;
+}
+
+.pcard-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 0.2s ease, gap 0.2s ease;
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .projects-header {
+    grid-template-columns: 1fr;
+  }
+  .projects-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .projects-list {
+    grid-template-columns: 1fr;
+  }
+  .projects-header {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
   }
 }
