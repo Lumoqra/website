@@ -3296,46 +3296,64 @@ body {
   z-index: 1;
 }
 
-/* 2. Interactive Spotlight tracking mouse (React Bits Spotlight) */
-.hero-spotlight {
+/* Ambient Center Grid Glow - Static pure CSS radial illumination (Zero CPU/GPU runtime load) */
+.hero-center-glow {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(850px, 92vw);
+  height: min(600px, 80vh);
+  pointer-events: none;
+  z-index: 1;
   background: radial-gradient(
-    650px circle at var(--mouse-x) var(--mouse-y),
-    rgba(139, 92, 246, 0.18),
-    rgba(109, 40, 217, 0.08) 35%,
-    transparent 70%
+    ellipse 65% 55% at 50% 50%,
+    rgba(139, 92, 246, 0.28) 0%,
+    rgba(109, 40, 217, 0.14) 45%,
+    transparent 72%
   );
-  transition: opacity 0.3s ease;
-  will-change: background;
 }
 
-/* 3. Floating Aurora Ambient Orbs (React Bits Aurora) */
+/* Atmospheric Vignette - Static pure CSS, zero runtime overhead */
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: 
+    radial-gradient(ellipse 70% 60% at 50% 50%, transparent 40%, rgba(18, 7, 31, 0.45) 75%, rgba(18, 7, 31, 0.92) 100%),
+    linear-gradient(180deg, rgba(18, 7, 31, 0.4) 0%, transparent 20%, transparent 80%, rgba(18, 7, 31, 0.75) 100%);
+}
+
+/* 2. Floating Aurora Ambient Orbs - Pure CSS radial glow without heavy blur filters */
 .hero-aurora-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.35;
-  mix-blend-mode: screen;
-  will-change: transform;
+  opacity: 0.42;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+.is-off .hero-aurora-orb {
+  animation-play-state: paused !important;
 }
 
 .hero-aurora--1 {
-  width: min(540px, 80vw);
-  height: min(540px, 80vw);
-  background: radial-gradient(circle, #6d28d9 0%, rgba(109, 40, 217, 0) 70%);
-  top: 15%;
-  left: 20%;
-  animation: auroraFloat1 18s ease-in-out infinite alternate;
+  width: min(560px, 80vw);
+  height: min(560px, 80vw);
+  background: radial-gradient(circle, rgba(109, 40, 217, 0.5) 0%, rgba(109, 40, 217, 0.22) 40%, rgba(109, 40, 217, 0) 70%);
+  top: 12%;
+  left: 18%;
+  animation: auroraFloat1 28s ease-in-out infinite alternate;
 }
 
 .hero-aurora--2 {
-  width: min(460px, 70vw);
-  height: min(460px, 70vw);
-  background: radial-gradient(circle, #8b5cf6 0%, rgba(139, 92, 246, 0) 70%);
-  bottom: 20%;
-  right: 18%;
-  animation: auroraFloat2 15s ease-in-out infinite alternate;
+  width: min(480px, 70vw);
+  height: min(480px, 70vw);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.45) 0%, rgba(139, 92, 246, 0.18) 45%, rgba(139, 92, 246, 0) 70%);
+  bottom: 18%;
+  right: 15%;
+  animation: auroraFloat2 24s ease-in-out infinite alternate;
 }
 
 @keyframes auroraFloat1 {
@@ -3411,12 +3429,16 @@ body {
   width: min(720px, 88vw);
   position: relative;
   z-index: 2;
-  filter: drop-shadow(0 0 45px rgba(139, 92, 246, 0.25)) drop-shadow(0 0 90px rgba(109, 40, 217, 0.15));
+  filter: 
+    drop-shadow(0 0 20px rgba(139, 92, 246, 0.18))
+    drop-shadow(0 0 50px rgba(109, 40, 217, 0.10));
   transition: filter 0.5s ease;
 }
 
 .hero-logo-mark:hover {
-  filter: drop-shadow(0 0 55px rgba(167, 139, 250, 0.38)) drop-shadow(0 0 110px rgba(109, 40, 217, 0.24));
+  filter: 
+    drop-shadow(0 0 30px rgba(167, 139, 250, 0.28))
+    drop-shadow(0 0 65px rgba(109, 40, 217, 0.18));
 }
 
 .hero-logo-mark .brand-hero-svg {

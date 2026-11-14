@@ -662,7 +662,7 @@
 })();
 
 
-/* ── React Bits: Shape Grid (Official vanilla port) ────────────────────────── */
+/* ── React Bits: Shape Grid (Glowing, Scrolling & Heat-Safe) ────────────────────────── */
 (function () {
   const container = document.getElementById('hero-shape-grid');
   if (!container) return;
@@ -674,22 +674,16 @@
     container.appendChild(canvas);
   }
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d', { alpha: true });
   if (!ctx) return;
 
-  const SHAPES = ['square', 'tile', 'hexagon', 'triangle', 'diamond', 'circle', 'cross', 'dot'];
-  const DIRECTIONS = {
-    right: [1, 0],
-    left: [-1, 0],
-    up: [0, -1],
-    down: [0, 1],
-    diagonal: [Math.SQRT1_2, -Math.SQRT1_2],
-    none: [0, 0]
-  };
-  const SQRT3 = Math.sqrt(3);
+  const isMobile = window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window && window.innerWidth < 1024);
+  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+
   const OFFSET = 32768;
   const FAR = 2.5;
-  const MAX_PIXELS = 8e6;
+  const MAX_PIXELS = isMobile ? 1.8e6 : 4.0e6;
+  const SQRT1_2 = Math.SQRT1_2;
 
   const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
@@ -724,19 +718,6 @@
     return `${axis('to right')}, ${axis('to bottom')}`;
   };
 
-  const lightnessOf = color => {
-    let hex = String(color).trim().replace(/^#/, '');
-    if (hex.length === 3 || hex.length === 4) hex = hex.replace(/./g, '$&$&');
-    hex = hex.slice(0, 6);
-    if (!/^[0-9a-f]{6}$/i.test(hex)) return 0.6;
-    const value = parseInt(hex, 16);
-    const channels = [value >> 16, (value >> 8) & 255, value & 255];
-    return (Math.max(...channels) + Math.min(...channels)) / 510;
-  };
-
-  const tint = (hue, lightness) =>
-    `hsl(${(((hue % 360) + 360) % 360).toFixed(1)}, 90%, ${(lightness * 100).toFixed(1)}%)`;
-
   const multiply = (a, b) =>
     [0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => {
       const r = k - (k % 3);
@@ -768,7 +749,6 @@
     inverse: null,
     transform: 'none',
     mist: null,
-    far: FAR,
     reach: Math.hypot(width, height) / 2
   });
 
@@ -851,111 +831,23 @@
     return { x0, y0, width: x1 - x0, height: y1 - y0, inverse, transform, mist, far, reach };
   };
 
-  const layoutFor = (shape, size) => {
-    if (shape === 'hexagon') {
-      const radius = size / SQRT3;
-      return { stepX: radius * 1.5, stepY: size, radius };
-    }
-    if (shape === 'triangle') {
-      const side = (size * 2) / SQRT3;
-      return { stepX: side / 2, stepY: size, side };
-    }
-    return { stepX: size, stepY: size };
-  };
-
-  const centerOf = (shape, layout, i, j) => {
-    const { stepX, stepY } = layout;
-    if (shape === 'hexagon') return [i * stepX, j * stepY + (Math.abs(i) % 2 === 1 ? stepY / 2 : 0)];
-    if (shape === 'triangle') {
-      const up = (((i + j) % 2) + 2) % 2 === 0;
-      return [i * stepX, j * stepY + (up ? stepY * (2 / 3) : stepY / 3)];
-    }
-    if (shape === 'cross' || shape === 'dot') return [i * stepX, j * stepY];
-    return [(i + 0.5) * stepX, (j + 0.5) * stepY];
-  };
-
-  const traceCell = (ctx, shape, layout, size, i, j, x, y, inset) => {
-    if (shape === 'hexagon') {
-      const r = layout.radius - inset;
-      for (let k = 0; k < 6; k++) {
-        const angle = (Math.PI / 3) * k;
-        const px = x + r * Math.cos(angle);
-        const py = y + r * Math.sin(angle);
-        if (k === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
-      }
-      ctx.closePath();
-    } else if (shape === 'triangle') {
-      const up = (((i + j) % 2) + 2) % 2 === 0;
-      const half = layout.side / 2 - inset * 1.7;
-      const height = size - inset * 2.6;
-      const top = up ? y - height * (2 / 3) : y + height * (2 / 3);
-      const base = up ? y + height / 3 : y - height / 3;
-      ctx.moveTo(x, top);
-      ctx.lineTo(x + half, base);
-      ctx.lineTo(x - half, base);
-      ctx.closePath();
-    } else if (shape === 'diamond') {
-      const r = size / 2 - inset;
-      ctx.moveTo(x, y - r);
-      ctx.lineTo(x + r, y);
-      ctx.lineTo(x, y + r);
-      ctx.lineTo(x - r, y);
-      ctx.closePath();
-    } else if (shape === 'circle') {
-      ctx.moveTo(x + size / 2 - inset, y);
-      ctx.arc(x, y, Math.max(0.5, size / 2 - inset), 0, Math.PI * 2);
-    } else if (shape === 'tile') {
-      const half = size / 2 - Math.max(inset, size * 0.06);
-      const r = Math.min(half, size * 0.22);
-      ctx.roundRect(x - half, y - half, half * 2, half * 2, r);
-    } else if (shape === 'cross') {
-      const arm = size * 0.16 + inset;
-      ctx.moveTo(x - arm, y);
-      ctx.lineTo(x + arm, y);
-      ctx.moveTo(x, y - arm);
-      ctx.lineTo(x, y + arm);
-    } else if (shape === 'dot') {
-      const r = size * 0.05 + inset;
-      ctx.moveTo(x + r, y);
-      ctx.arc(x, y, r, 0, Math.PI * 2);
-    } else {
-      const half = size / 2 - inset;
-      ctx.rect(x - half, y - half, half * 2, half * 2);
-    }
-  };
-
-  // React Bits ShapeGrid Settings configured for Lumoqra Brand Palette:
-  // - Dark violet lines (#2b1b4a / rgba(196,181,253,0.18))
-  // - Vibrant glowing hover border (#a78bfa / #c4b5fd)
-  // - Violet glow fill (#8b5cf6 with fillOpacity 0.18)
-  // - Perspective tilt (tiltX: 18, tiltY: -12)
-  // - Diagonal drift with responsive speed
+  // Original aesthetic settings restored with tuned parameters
   const settings = {
-    shape: 'square',
     cellSize: 42,
     lineWidth: 1,
-    direction: 'diagonal',
-    speed: 0.35,
-    lineColor: 'rgba(196, 181, 253, 0.14)',
+    speed: 0.32,
+    lineColor: 'rgba(196, 181, 253, 0.16)',
     hoverColor: '#c4b5fd',
     hoverFillColor: 'rgba(139, 92, 246, 0.22)',
     fillOpacity: 0.22,
-    rainbow: false,
-    tone: 0.6,
     tiltX: 16,
     tiltY: -10,
     radius: 1.8,
     trail: 0.7,
     glow: 0.45,
-    twinkle: 0.15,
-    clickCascade: true,
-    intro: true,
-    paused: false,
-    dpr: Math.min(window.devicePixelRatio || 1, 2)
+    twinkle: isMobile ? 0.08 : 0.14,
+    dpr: isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5)
   };
-
-  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 
   const state = {
     alive: true,
@@ -980,17 +872,17 @@
     spotVY: 0,
     spotPower: 0,
     lit: new Map(),
-    hues: new Map(),
     cascades: [],
-    cascadeHue: 0
+    needsResize: true
   };
 
   const resize = () => {
+    state.needsResize = false;
     const s = settings;
     const width = Math.max(1, container.clientWidth);
     const height = Math.max(1, container.clientHeight);
     const view = viewFor(s.tiltX, s.tiltY, width, height, s.cellSize);
-    let ratio = s.dpr ?? Math.min(window.devicePixelRatio || 1, 2);
+    let ratio = s.dpr;
     const pixels = view.width * view.height * ratio * ratio;
     if (pixels > MAX_PIXELS) ratio *= Math.sqrt(MAX_PIXELS / pixels);
     state.width = width;
@@ -1017,8 +909,7 @@
     return project(inverse, x, y);
   };
 
-  const range = (layout, margin) => {
-    const { stepX, stepY } = layout;
+  const range = (stepX, stepY, margin) => {
     const { view } = state;
     return [
       Math.floor((state.offsetX + view.x0 - margin) / stepX) - 1,
@@ -1028,54 +919,33 @@
     ];
   };
 
-  const nearestCell = (s, layout, wx, wy) => {
-    const { stepX, stepY } = layout;
-    const ci = Math.round(wx / stepX);
-    const cj = Math.round(wy / stepY);
-    let best = Infinity;
-    let cell = [ci, cj];
-    for (let i = ci - 2; i <= ci + 2; i++) {
-      for (let j = cj - 2; j <= cj + 2; j++) {
-        const [x, y] = centerOf(s.shape, layout, i, j);
-        const d = (x - wx) ** 2 + (y - wy) ** 2;
-        if (d < best) {
-          best = d;
-          cell = [i, j];
-        }
-      }
-    }
-    return cell;
-  };
-
-  const illuminate = (s, layout, dt) => {
+  const illuminate = (s, step, dt) => {
     const decay = Math.exp(-dt / s.trail);
     for (const [key, value] of state.lit) {
       const next = value * decay;
-      if (next < 0.004) {
+      if (next < 0.005) {
         state.lit.delete(key);
-        state.hues.delete(key);
       } else state.lit.set(key, next);
     }
     if (state.spotPower < 0.01) return;
     const wx = state.spotX + state.offsetX;
     const wy = state.spotY + state.offsetY;
     const reach = Math.max(s.radius, 0.5) * s.cellSize;
-    const [hi, hj] = nearestCell(s, layout, wx, wy);
-    const spanI = Math.ceil(reach / layout.stepX) + 2;
-    const spanJ = Math.ceil(reach / layout.stepY) + 2;
-    const hue = state.time * 120;
-    for (let i = hi - spanI; i <= hi + spanI; i++) {
-      for (let j = hj - spanJ; j <= hj + spanJ; j++) {
-        const [x, y] = centerOf(s.shape, layout, i, j);
-        const distance = Math.hypot(x - wx, y - wy);
+    const hi = Math.round(wx / step);
+    const hj = Math.round(wy / step);
+    const span = Math.ceil(reach / step) + 2;
+    for (let i = hi - span; i <= hi + span; i++) {
+      for (let j = hj - span; j <= hj + span; j++) {
+        const cx = (i + 0.5) * step;
+        const cy = (j + 0.5) * step;
+        const distance = Math.hypot(cx - wx, cy - wy);
         let value = s.radius > 0 ? smoothstep(reach, reach * 0.15, distance) : 0;
         if (i === hi && j === hj) value = Math.max(value, 1);
         value *= state.spotPower;
-        if (value <= 0.004) continue;
+        if (value <= 0.005) continue;
         const key = keyOf(i, j);
         if (value > (state.lit.get(key) ?? 0)) {
           state.lit.set(key, value);
-          state.hues.set(key, hue + ((x + y) / s.cellSize) * 12);
         }
       }
     }
@@ -1090,7 +960,6 @@
       const pulse = Math.exp(-((local / 0.085) ** 2)) * cascade.power * Math.max(0, 1 - ring / cascade.reach);
       if (pulse > value) {
         value = pulse;
-        state.cascadeHue = cascade.hue + ring * 16;
       }
     }
     return value;
@@ -1099,10 +968,10 @@
   const draw = () => {
     const s = settings;
     const { view, ratio } = state;
-    const layout = layoutFor(s.shape, s.cellSize);
+    const size = s.cellSize;
+    const step = size;
+
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.globalAlpha = 1;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.setTransform(ratio, 0, 0, ratio, -view.x0 * ratio, -view.y0 * ratio);
 
@@ -1110,44 +979,33 @@
     const top = view.y0;
     const right = view.x0 + view.width;
     const bottom = view.y0 + view.height;
-    const size = s.cellSize;
-    const [i0, i1, j0, j1] = range(layout, size);
-    const markers = s.shape === 'cross' || s.shape === 'dot';
+    const [i0, i1, j0, j1] = range(step, step, size);
     const elapsed = state.time - state.startedAt;
-    const introRadius = s.intro && !reduce ? elapsed * view.reach * 1.8 : Infinity;
+    const introRadius = !reduce && elapsed < 2.2 ? elapsed * view.reach * 1.8 : Infinity;
     const originX = state.width / 2;
     const originY = state.height / 2;
     const centerX = originX + state.offsetX;
     const centerY = originY + state.offsetY;
 
+    // 1. Base Scrolling Grid with slight violet luminous line glow
     ctx.lineWidth = s.lineWidth;
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
     ctx.strokeStyle = s.lineColor;
-    ctx.fillStyle = s.lineColor;
     ctx.beginPath();
-    if (s.shape === 'square') {
-      for (let i = i0; i <= i1; i++) {
-        const x = i * layout.stepX - state.offsetX;
-        ctx.moveTo(x, top - size);
-        ctx.lineTo(x, bottom + size);
-      }
-      for (let j = j0; j <= j1; j++) {
-        const y = j * layout.stepY - state.offsetY;
-        ctx.moveTo(left - size, y);
-        ctx.lineTo(right + size, y);
-      }
-    } else {
-      for (let i = i0; i <= i1; i++) {
-        for (let j = j0; j <= j1; j++) {
-          const [cx, cy] = centerOf(s.shape, layout, i, j);
-          traceCell(ctx, s.shape, layout, size, i, j, cx - state.offsetX, cy - state.offsetY, 0);
-        }
-      }
+    for (let i = i0; i <= i1; i++) {
+      const x = i * step - state.offsetX;
+      ctx.moveTo(x, top - size);
+      ctx.lineTo(x, bottom + size);
     }
-    if (s.shape === 'dot') ctx.fill();
-    else ctx.stroke();
+    for (let j = j0; j <= j1; j++) {
+      const y = j * step - state.offsetY;
+      ctx.moveTo(left - size, y);
+      ctx.lineTo(right + size, y);
+    }
+    ctx.stroke();
 
+    // 2. Intro Wave
     if (introRadius !== Infinity) {
       const gradient = ctx.createRadialGradient(originX, originY, 0, originX, originY, Math.max(1, introRadius));
       gradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
@@ -1159,84 +1017,92 @@
       ctx.globalCompositeOperation = 'source-over';
     }
 
-    const glowing = s.glow > 0;
-    for (let i = i0; i <= i1; i++) {
-      for (let j = j0; j <= j1; j++) {
-        const [cx, cy] = centerOf(s.shape, layout, i, j);
-        const key = keyOf(i, j);
-        let value = state.lit.get(key) ?? 0;
-        let hue = state.hues.get(key) ?? 0;
-        if (state.cascades.length) {
-          const pulse = cascadeAt(s, cx, cy);
-          if (pulse > value) {
-            value = pulse;
-            hue = state.cascadeHue;
-          }
-        }
-        if (s.twinkle > 0 && !reduce) {
+    // 3. Ambient Twinkle & Active Cell Highlights (Creates the subtle shimmering grid glow)
+    const activeCells = new Map(state.lit);
+
+    // Subtle random twinkle on select cells
+    if (s.twinkle > 0 && !reduce) {
+      // Sample a subset for performance
+      const stepSample = isMobile ? 3 : 2;
+      for (let i = i0; i <= i1; i += stepSample) {
+        for (let j = j0; j <= j1; j += stepSample) {
           const seed = hash(i, j);
           const wave = Math.sin(state.time * (0.35 + seed * 0.5) + seed * 40);
           const sparkle = s.twinkle * 0.7 * Math.max(0, wave) ** 18;
-          if (sparkle > value) {
-            value = sparkle;
-            hue = seed * 360;
+          if (sparkle > 0.02) {
+            const key = keyOf(i, j);
+            if (sparkle > (activeCells.get(key) ?? 0)) {
+              activeCells.set(key, sparkle);
+            }
           }
         }
-        if (introRadius !== Infinity) {
-          const front = introRadius - Math.hypot(cx - centerX, cy - centerY);
-          if (front < 0) continue;
-          const wave = Math.exp(-((front / (size * 1.4)) ** 2)) * 0.85;
-          if (wave > value) {
-            value = wave;
-            hue = (Math.atan2(cy - centerY, cx - centerX) * 180) / Math.PI + state.time * 120;
-          }
-        }
-        if (value <= 0.01) continue;
-        const color = s.rainbow ? tint(hue, s.tone) : s.hoverColor;
-        const x = cx - state.offsetX;
-        const y = cy - state.offsetY;
-        ctx.beginPath();
-        traceCell(ctx, s.shape, layout, size, i, j, x, y, markers ? value * size * 0.08 : s.lineWidth * 0.5);
-        if (markers) {
-          ctx.globalAlpha = Math.min(1, value);
-          if (glowing) {
-            ctx.shadowColor = color;
-            ctx.shadowBlur = s.glow * 14 * value;
-          }
-          if (s.shape === 'dot') {
-            ctx.fillStyle = color;
-            ctx.fill();
-          } else {
-            ctx.strokeStyle = color;
-            ctx.lineWidth = s.lineWidth * (1 + value * 0.6);
-            ctx.stroke();
-          }
-          ctx.shadowBlur = 0;
-          continue;
-        }
-        if (s.fillOpacity > 0) {
-          ctx.globalAlpha = Math.min(1, value) * s.fillOpacity;
-          ctx.fillStyle = s.rainbow ? color : s.hoverFillColor;
-          ctx.fill();
-        }
-        ctx.globalAlpha = Math.min(1, value) * 0.85;
-        if (glowing) {
-          ctx.shadowColor = color;
-          ctx.shadowBlur = s.glow * 16 * value;
-        }
-        ctx.strokeStyle = color;
-        ctx.lineWidth = s.lineWidth;
-        ctx.stroke();
-        ctx.shadowBlur = 0;
       }
+    }
+
+    if (state.cascades.length || introRadius !== Infinity) {
+      for (let i = i0; i <= i1; i++) {
+        for (let j = j0; j <= j1; j++) {
+          const cx = (i + 0.5) * step;
+          const cy = (j + 0.5) * step;
+          let val = 0;
+          if (state.cascades.length) {
+            val = Math.max(val, cascadeAt(s, cx, cy));
+          }
+          if (introRadius !== Infinity) {
+            const front = introRadius - Math.hypot(cx - centerX, cy - centerY);
+            if (front >= 0) {
+              const wave = Math.exp(-((front / (size * 1.4)) ** 2)) * 0.85;
+              val = Math.max(val, wave);
+            }
+          }
+          if (val > 0.01) {
+            const key = keyOf(i, j);
+            if (val > (activeCells.get(key) ?? 0)) {
+              activeCells.set(key, val);
+            }
+          }
+        }
+      }
+    }
+
+    const half = size / 2 - 0.5;
+    const canGlow = s.glow > 0 && activeCells.size < 25;
+
+    for (const [key, value] of activeCells) {
+      if (value <= 0.01) continue;
+      const j = (key % 65536) - OFFSET;
+      const i = Math.floor(key / 65536) - OFFSET;
+      const cx = (i + 0.5) * step;
+      const cy = (j + 0.5) * step;
+      const x = cx - state.offsetX;
+      const y = cy - state.offsetY;
+
+      // Soft fill
+      if (s.fillOpacity > 0) {
+        ctx.globalAlpha = Math.min(1, value) * s.fillOpacity;
+        ctx.fillStyle = s.hoverFillColor;
+        ctx.fillRect(x - half, y - half, half * 2, half * 2);
+      }
+
+      // Glowing outline
+      ctx.globalAlpha = Math.min(1, value) * 0.88;
+      if (canGlow) {
+        ctx.shadowColor = s.hoverColor;
+        ctx.shadowBlur = s.glow * 14 * value;
+      }
+      ctx.strokeStyle = s.hoverColor;
+      ctx.lineWidth = s.lineWidth * (1 + value * 0.3);
+      ctx.strokeRect(x - half, y - half, half * 2, half * 2);
+      if (canGlow) ctx.shadowBlur = 0;
     }
     ctx.globalAlpha = 1;
 
+    // 4. Perspective Mist Fade (Soft background depth)
     if (view.mist) {
       const [mx0, my0, mx1, my1] = view.mist;
       const gradient = ctx.createLinearGradient(mx0, my0, mx1, my1);
-      for (let k = 0; k <= 8; k++) {
-        const t = k / 8;
+      for (let k = 0; k <= 6; k++) {
+        const t = k / 6;
         gradient.addColorStop(t, `rgba(0, 0, 0, ${(1 - smootherstep(t)).toFixed(3)})`);
       }
       ctx.globalCompositeOperation = 'destination-in';
@@ -1246,24 +1112,40 @@
     }
   };
 
+  // Fluid 40 FPS target (smooth scrolling with ~40% less CPU than 60Hz)
+  const frameInterval = isMobile ? (1000 / 30) : (1000 / 42);
+
   const frame = now => {
     state.raf = 0;
-    if (!state.alive) return;
+    if (!state.alive || !state.visible || document.hidden) return;
+
+    if (state.needsResize) {
+      resize();
+    }
+
+    if (state.last && (now - state.last) < frameInterval) {
+      state.raf = requestAnimationFrame(frame);
+      return;
+    }
+
     const s = settings;
-    const dt = state.last ? Math.min(0.05, (now - state.last) / 1000) : 1 / 60;
+    const dt = state.last ? Math.min(0.06, (now - state.last) / 1000) : 1 / 35;
     state.last = now;
-    resize();
+
     if (!state.started) {
       state.started = true;
       state.startedAt = state.time;
     }
-    if (!s.paused) {
-      state.time += dt;
-      if (!reduce) {
-        const [dx, dy] = DIRECTIONS[s.direction];
-        state.offsetX -= dx * s.speed * 60 * dt;
-        state.offsetY -= dy * s.speed * 60 * dt;
-      }
+
+    // Smooth continuous diagonal scrolling
+    state.time += dt;
+    if (!reduce) {
+      state.offsetX -= SQRT1_2 * s.speed * 60 * dt;
+      state.offsetY -= -SQRT1_2 * s.speed * 60 * dt;
+    }
+
+    // Interactive pointer physics
+    if (state.inside || state.spotPower > 0.005) {
       const want = state.inside ? 1 : 0;
       state.spotPower += (want - state.spotPower) * (1 - Math.exp(-(want ? 10 : 5) * dt));
       const stiffness = 220;
@@ -1272,25 +1154,27 @@
       state.spotVY += (stiffness * (state.pointerY - state.spotY) - damping * state.spotVY) * dt;
       state.spotX += state.spotVX * dt;
       state.spotY += state.spotVY * dt;
-      illuminate(s, layoutFor(s.shape, s.cellSize), dt);
+      illuminate(s, s.cellSize, dt);
+    }
+
+    if (state.cascades.length > 0) {
       state.cascades = state.cascades.filter(cascade => state.time - cascade.time < cascade.reach * 0.055 + 0.4);
     }
+
     draw();
-    const settled =
-      s.paused ||
-      (s.speed === 0 || s.direction === 'none' || reduce
-        ? state.lit.size === 0 &&
-          state.cascades.length === 0 &&
-          s.twinkle === 0 &&
-          state.spotPower < 0.005 &&
-          state.time - state.startedAt > 3
-        : false);
-    if (!settled && state.visible) state.raf = requestAnimationFrame(frame);
-    else state.last = 0;
+
+    if (state.visible && !document.hidden) {
+      state.raf = requestAnimationFrame(frame);
+    } else {
+      state.last = 0;
+    }
   };
 
   const wake = () => {
-    if (!state.raf && state.alive && state.visible) state.raf = requestAnimationFrame(frame);
+    if (!state.raf && state.alive && state.visible && !document.hidden) {
+      state.last = 0;
+      state.raf = requestAnimationFrame(frame);
+    }
   };
 
   const pointFrom = event => {
@@ -1323,7 +1207,6 @@
 
   const onDown = event => {
     const s = settings;
-    if (!s.clickCascade) return;
     const point = pointFrom(event);
     if (!point) return;
     state.cascades.push({
@@ -1331,34 +1214,53 @@
       y: point[1] + state.offsetY,
       time: state.time,
       power: 1,
-      reach: Math.hypot(state.view.width, state.view.height) / s.cellSize,
-      hue: state.time * 120
+      reach: Math.hypot(state.view.width, state.view.height) / s.cellSize
     });
-    if (state.cascades.length > 6) state.cascades.shift();
+    if (state.cascades.length > 4) state.cascades.shift();
     wake();
   };
 
-  // Mask on container
+  // Fade mask for soft borders
   const mask = fadeMask(1);
   if (mask !== 'none') {
     container.style.maskImage = mask;
     container.style.webkitMaskImage = mask;
-    container.style.maskComposite = 'intersect';
-    container.style.webkitMaskComposite = 'source-in';
   }
 
   const resizeObserver = new ResizeObserver(() => {
-    resize();
-    draw();
+    state.needsResize = true;
     wake();
   });
   resizeObserver.observe(container);
 
+  // Full stop when scrolled off screen
   const visibility = new IntersectionObserver(entries => {
-    state.visible = entries.some(entry => entry.isIntersecting);
-    if (state.visible) wake();
-  });
+    const isIntersecting = entries.some(entry => entry.isIntersecting);
+    state.visible = isIntersecting;
+    if (state.visible) {
+      wake();
+    } else {
+      if (state.raf) {
+        cancelAnimationFrame(state.raf);
+        state.raf = 0;
+      }
+      state.last = 0;
+    }
+  }, { threshold: 0.05 });
   visibility.observe(container);
+
+  // Full stop when tab is inactive
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (state.raf) {
+        cancelAnimationFrame(state.raf);
+        state.raf = 0;
+      }
+      state.last = 0;
+    } else if (state.visible) {
+      wake();
+    }
+  });
 
   window.addEventListener('pointermove', onMove, { passive: true });
   window.addEventListener('pointerdown', onDown, { passive: true });
@@ -1368,3 +1270,4 @@
   resize();
   wake();
 })();
+
